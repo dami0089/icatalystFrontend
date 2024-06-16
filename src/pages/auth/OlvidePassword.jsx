@@ -9,57 +9,60 @@ import {
 	Button,
 	Typography,
 } from "@material-tailwind/react";
-
 import fondo from "/imgs/2147665301.jpg";
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 
-import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
-import Cargando from "../components/Cargando";
-import clienteAxios from "../configs/clinteAxios";
+import clienteAxios from "../../configs/clinteAxios";
+import useAuth from "../../hooks/useAuth";
+import Cargando from "../../components/Cargando";
 
-export function Login() {
+export function OlvidePassword() {
 	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [showPassword, setShowPassword] = useState(false);
-
-	const { setAuth, handleCargando } = useAuth();
 	const navigate = useNavigate();
+	const { handleCargando } = useAuth();
 
 	const handleSubmit = async () => {
-		if ([email, password].includes("")) {
+		if (email === "" || email.length < 6) {
 			Swal.fire({
 				icon: "error",
 				title: "Oops...",
-				text: "⚠️ Todos los campos son obligatorios!",
+				text: `⚠️ Por favor ingresa tu mail!`,
+			});
+			return;
+		}
+		if (!/\S+@\S+\.\S+/.test(email)) {
+			Swal.fire({
+				icon: "error",
+				title: "Oops...",
+				text: `⚠️ Email invalido`,
 			});
 			return;
 		}
 
 		try {
 			handleCargando();
-			const { data } = await clienteAxios.post("/usuarios/login", {
+			const { data } = await clienteAxios.post(`/usuarios/olvide-password`, {
 				email,
-				password,
 			});
-			setAuth(data);
-			localStorage.setItem("token", data.token);
-			navigate("/inicio");
+			Swal.fire({
+				position: "top-end",
+				icon: "success",
+				title: `${data.msg}`,
+				showConfirmButton: false,
+				timer: 1500,
+			});
+			setEmail("");
+			setTimeout(() => {
+				handleCargando();
+
+				navigate("/");
+			}, 1500);
 		} catch (error) {
-			console.log(error);
 			Swal.fire({
 				icon: "error",
 				title: "Oops...",
 				text: `${error.response.data.msg}`,
 			});
-		} finally {
-			handleCargando();
-		}
-	};
-
-	const handleKeyPress = (e) => {
-		if (e.key === "Enter") {
-			handleSubmit();
 		}
 	};
 
@@ -78,56 +81,31 @@ export function Login() {
 						className="mb-4 grid h-28 place-items-center bg-gray-900"
 					>
 						<Typography variant="h3" color="white" className="uppercase">
-							Ingresar
+							Recuperar Password
 						</Typography>
 					</CardHeader>
 					<CardBody className="flex flex-col gap-4">
 						<Input
-							placeholder="Usuario o Email"
-							type="text"
+							type="email"
+							label="Email"
 							size="lg"
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
-							onKeyPress={handleKeyPress}
 						/>
-						<div className="relative">
-							<Input
-								type={showPassword ? "text" : "password"}
-								placeholder="Password"
-								size="lg"
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
-								onKeyPress={handleKeyPress}
-							/>
-							<div
-								className="absolute right-4 top-1/2 -translate-y-1/2 transform cursor-pointer"
-								onClick={() => setShowPassword(!showPassword)}
-							>
-								{showPassword ? (
-									<EyeSlashIcon className="h-6 w-6" />
-								) : (
-									<EyeIcon className="h-6 w-6" />
-								)}
-							</div>
-						</div>
 					</CardBody>
 					<CardFooter className="pt-0">
-						<Button
-							className="bg-gray-900"
-							fullWidth
-							onClick={(e) => handleSubmit(e)}
-						>
-							Iniciar Sesion
+						<Button className="bg-gray-900" fullWidth onClick={handleSubmit}>
+							Recuperar
 						</Button>
 						<Typography variant="small" className="mt-6 flex justify-center">
-							Olvidaste tu Password?
-							<Link to="/olvide-password">
+							Ya tenes cuenta?
+							<Link to="/">
 								<Typography
 									as="span"
 									variant="small"
 									className="ml-1 font-bold text-gray-900"
 								>
-									Recuperar
+									Iniciar sesion
 								</Typography>
 							</Link>
 						</Typography>
@@ -139,4 +117,4 @@ export function Login() {
 	);
 }
 
-export default Login;
+export default OlvidePassword;

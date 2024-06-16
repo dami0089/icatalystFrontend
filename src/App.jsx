@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import Login from "./pages/loginPage";
+
 import RutaProtegida from "./layouts/RutaProtegida";
 import Home from "./pages/home";
 import Profesores from "./pages/listadoProfesores";
@@ -7,12 +7,19 @@ import EjemplosPage from "./pages/ejemplosPage";
 import ActivityExample from "./pages/ejemploActividad";
 import useAuth from "./hooks/useAuth";
 import Escuelas from "./pages/escuelas";
+import PrimerPassword from "./pages/auth/PrimerPassword";
+import OlvidePassword from "./pages/auth/OlvidePassword";
+import NuevoPassword from "./pages/auth/NuevoPassword";
+import Login from "./pages/auth/loginPage";
 
 function App() {
 	const { auth } = useAuth();
 	return (
 		<Routes>
 			<Route path="/login" element={<Login />} />
+			<Route path="crear-password/:token" element={<PrimerPassword />} />
+			<Route path="olvide-password" element={<OlvidePassword />} />
+			<Route path="olvide-password/:token" element={<NuevoPassword />} />
 
 			{auth.rol === "admin" ? (
 				<>
