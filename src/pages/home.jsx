@@ -23,10 +23,10 @@ export function Home() {
 	// 	navigate("/listado-usuarios");
 	// };
 
-	// const handleListadoNotificaciones = (e) => {
-	// 	e.preventDefault();
-	// 	navigate("/listado-notificaciones");
-	// };
+	const handleListadoEstrategias = (e) => {
+		e.preventDefault();
+		navigate("/listado-estrategias");
+	};
 
 	return (
 		<>
@@ -89,7 +89,7 @@ export function Home() {
 				</Card>
 				<Card
 					className="flex w-full max-w-md flex-row items-center p-6 hover:cursor-pointer md:max-w-lg lg:max-w-xl hover:scale-105"
-					// onClick={(e) => handleListadoNotificaciones(e)}
+					onClick={(e) => handleListadoEstrategias(e)}
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -109,13 +109,13 @@ export function Home() {
 					</svg>
 					<div className="ml-4">
 						<Typography variant="h5" color="blue-gray">
-							Listado de Actividades
+							Listado de Estrategias
 						</Typography>
 						<Typography
 							variant="subtitle1"
 							className="font-normal text-blue-gray-600"
 						>
-							Ver todas las actividades disponibles
+							Ver todas las estrategias disponibles
 						</Typography>
 					</div>
 				</Card>
