@@ -18,10 +18,10 @@ export function Home() {
 		navigate("/listado-escuelas");
 	};
 
-	// const handleVerUsuarios = (e) => {
-	// 	e.preventDefault();
-	// 	navigate("/listado-usuarios");
-	// };
+	const handleVerAlumnos = (e) => {
+		e.preventDefault();
+		navigate("/listado-alumnos");
+	};
 
 	const handleListadoEstrategias = (e) => {
 		e.preventDefault();
@@ -121,7 +121,7 @@ export function Home() {
 				</Card>
 				<Card
 					className="flex w-full max-w-md flex-row items-center p-6 hover:cursor-pointer md:max-w-lg lg:max-w-xl hover:scale-105"
-					// onClick={(e) => handleVerUsuarios(e)}
+					onClick={(e) => handleVerAlumnos(e)}
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -147,7 +147,7 @@ export function Home() {
 						</Typography>
 					</div>
 				</Card>
-				<Card
+				{/* <Card
 					className="flex w-full max-w-md flex-row items-center p-6 hover:cursor-pointer md:max-w-lg lg:max-w-xl hover:scale-105"
 					// onClick={handleModalNotificacionAdmin}
 				>
@@ -181,7 +181,7 @@ export function Home() {
 							Se enviara a todos los profesores
 						</Typography>
 					</div>
-				</Card>
+				</Card> */}
 
 				{/* <Cargando /> */}
 			</div>

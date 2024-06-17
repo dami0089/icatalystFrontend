@@ -1,23 +1,34 @@
 import { CardBody, Typography } from "@material-tailwind/react";
-import { PencilSquareIcon } from "@heroicons/react/24/solid";
-import useEscuelas from "../../hooks/useEscuelas";
+import useAlumnos from "../../hooks/useAlumnos";
 import { useEffect } from "react";
+import { PencilSquareIcon } from "@heroicons/react/24/solid";
 
-const ListadoEscuelas = () => {
-	const { escuelas, obtenerEscuelas } = useEscuelas();
+const ListadoAlumnos = () => {
+	const { alumnos, obtenerAlumnos, actualizarListado, setActualizarListado } =
+		useAlumnos();
 
 	useEffect(() => {
-		const obtenerEsc = async () => {
-			await obtenerEscuelas();
+		const escuelas = async () => {
+			await obtenerAlumnos();
 		};
-		obtenerEsc();
+		escuelas();
 	}, []);
+
+	useEffect(() => {
+		const escuelas = async () => {
+			if (actualizarListado) {
+				await obtenerAlumnos();
+				setActualizarListado(false);
+			}
+		};
+		escuelas();
+	}, [actualizarListado]);
 
 	return (
 		<>
 			<div>
 				<Typography variant="h6" color="blue-gray" className="mb-3 ml-4">
-					Listado de Escuelas
+					Listado de Alumnos
 				</Typography>
 			</div>
 			<CardBody className="overflow-x-scroll px-0 pb-2 pt-0">
@@ -25,7 +36,7 @@ const ListadoEscuelas = () => {
 					<table className="w-full min-w-[640px] table-auto">
 						<thead>
 							<tr>
-								{["Nombre", "Accion"].map((el) => (
+								{["Nombre", "Escuela", "Accion"].map((el) => (
 									<th
 										key={el}
 										className="border-b border-blue-gray-50 px-6 py-3 text-center"
@@ -41,9 +52,9 @@ const ListadoEscuelas = () => {
 							</tr>
 						</thead>
 						<tbody>
-							{escuelas.map(({ _id, nombre }, key) => {
+							{alumnos.map(({ _id, nombre, apellido, nombreEscuela }, key) => {
 								const className = `py-3 px-5 ${
-									key === escuelas.length - 1
+									key === alumnos.length - 1
 										? ""
 										: "border-b border-blue-gray-50"
 								}`;
@@ -53,7 +64,15 @@ const ListadoEscuelas = () => {
 										<td className={className}>
 											<div className="flex items-center justify-center gap-4">
 												<Typography variant="small" className="font-bold">
-													{nombre}
+													{nombre} {apellido}
+												</Typography>
+											</div>
+										</td>
+
+										<td className={className}>
+											<div className="flex items-center justify-center gap-4">
+												<Typography variant="small" className="font-bold">
+													{nombreEscuela}
 												</Typography>
 											</div>
 										</td>
@@ -83,7 +102,7 @@ const ListadoEscuelas = () => {
 					</table>
 				</div>
 				<div className="mb-3 mt-3  block  md:hidden">
-					{escuelas.map(({ _id, nombre }) => (
+					{alumnos.map(({ _id, nombre }) => (
 						<div
 							key={_id}
 							className="mb-4 rounded-lg border border-blue-gray-50 p-4"
@@ -101,4 +120,4 @@ const ListadoEscuelas = () => {
 	);
 };
 
-export default ListadoEscuelas;
+export default ListadoAlumnos;

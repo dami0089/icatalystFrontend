@@ -8,6 +8,7 @@ import { ProfesoresProvider } from "./context/ProfesoresProvider.jsx";
 import ErrorBoundary from "./components/error/error.jsx";
 import { EscuelasProvider } from "./context/EscuelasProvider.jsx";
 import { EstrategiasProvider } from "./context/EstrategiasProvider.jsx";
+import { AlumnosProvider } from "./context/AlumnosProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
@@ -16,9 +17,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 				<ProfesoresProvider>
 					<EscuelasProvider>
 						<EstrategiasProvider>
-							<ErrorBoundary>
-								<App />
-							</ErrorBoundary>
+							<AlumnosProvider>
+								<ErrorBoundary>
+									<App />
+								</ErrorBoundary>
+							</AlumnosProvider>
 						</EstrategiasProvider>
 					</EscuelasProvider>
 				</ProfesoresProvider>

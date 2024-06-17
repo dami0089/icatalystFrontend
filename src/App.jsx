@@ -12,6 +12,7 @@ import OlvidePassword from "./pages/auth/OlvidePassword";
 import NuevoPassword from "./pages/auth/NuevoPassword";
 import Login from "./pages/auth/loginPage";
 import Estrategias from "./pages/estrategias";
+import Alumnos from "./pages/alumnos";
 
 function App() {
 	const { auth } = useAuth();
@@ -41,7 +42,7 @@ function App() {
 					</Route>
 
 					<Route path="/listado-alumnos" element={<RutaProtegida />}>
-						<Route index element={<Home />} />
+						<Route index element={<Alumnos />} />
 					</Route>
 
 					<Route path="/notificaciones" element={<RutaProtegida />}>

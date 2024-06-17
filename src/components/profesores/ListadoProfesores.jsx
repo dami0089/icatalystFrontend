@@ -1,5 +1,5 @@
 import { CardBody, Typography } from "@material-tailwind/react";
-import { EyeIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
+import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import useProfesores from "../../hooks/useProfesores";
 import { useEffect } from "react";
 
@@ -75,7 +75,19 @@ const ListadoProfesores = () => {
 
 											<td className={className}>
 												<div className="flex items-center justify-center gap-4">
-													<EyeIcon className="h-8 w-8 hover:cursor-pointer" />
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														width="1em"
+														height="1em"
+														viewBox="0 0 24 24"
+														className="h-8 w-8 hover:cursor-pointer"
+													>
+														<path
+															fill="currentColor"
+															fillRule="evenodd"
+															d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10m-4.906-3.68L18.32 7.094A8 8 0 0 1 7.094 18.32M5.68 16.906A8 8 0 0 1 16.906 5.68z"
+														/>
+													</svg>
 													<PencilSquareIcon className="h-8 w-8 hover:cursor-pointer" />
 												</div>
 											</td>
@@ -97,19 +109,19 @@ const ListadoProfesores = () => {
 									Nombre: {nombre}
 								</Typography>
 								<div className="flex items-center gap-4">
-									<EyeIcon
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="1em"
+										height="1em"
+										viewBox="0 0 24 24"
 										className="h-6 w-6 hover:cursor-pointer"
-										// onClick={(e) =>
-										// 	verEmpresa(
-										// 		e,
-										// 		_id,
-										// 		numeroLocal,
-										// 		nombreTitularLocal,
-										// 		nombreInquilino,
-										// 		nombreLocal
-										// 	)
-										// }
-									/>
+									>
+										<path
+											fill="currentColor"
+											fillRule="evenodd"
+											d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12s4.477 10 10 10m-4.906-3.68L18.32 7.094A8 8 0 0 1 7.094 18.32M5.68 16.906A8 8 0 0 1 16.906 5.68z"
+										/>
+									</svg>
 									<PencilSquareIcon
 										className="h-6 w-6 hover:cursor-pointer"
 										// onClick={(e) =>
