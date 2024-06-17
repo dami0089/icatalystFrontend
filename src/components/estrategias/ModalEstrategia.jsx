@@ -1,54 +1,26 @@
 import Modal from "react-modal";
 import useEstrategias from "../../hooks/useEstrategias";
 import useAuth from "../../hooks/useAuth";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState } from "react";
 
 Modal.setAppElement("#root");
 
-const ModalEditarEstrategia = () => {
+const ModalEstrategia = () => {
 	const {
-		modalEditarEstrategia,
-		handleModalEditarEstrategia,
+		modalNuevaEstrategia,
+		handleModalNuevaEstrategia,
+		explicacionEstrategia,
+		setExplicacionEstrategia,
+		sistemaEstrategia,
+		setSistemaEstrategia,
+		nombreEstrategia,
+		setNombreEstrategia,
+		nuevaEstrategia,
 		setActualizarEstrategias,
-		idEstrategiaEditar,
 	} = useEstrategias();
 
 	const { handleCargando } = useAuth();
-
-	const [nombreEstrategia, setNombreEstrategia] = useState("");
-	const [explicacionEstrategia, setExplicacionEstrategia] = useState("");
-	const [sistemaEstrategia, setSistemaEstrategia] = useState("");
 	const [fileEstrategia, setFileEstrategia] = useState(null);
-	const [imagenActual, setImagenActual] = useState("");
-
-	useEffect(() => {
-		const obtenerEstrategia = async () => {
-			try {
-				const token = localStorage.getItem("token");
-				if (!token) return;
-				const config = {
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				};
-				const { data } = await axios.get(
-					`/api/estrategia/${idEstrategiaEditar}`,
-					config
-				);
-				setNombreEstrategia(data.nombre);
-				setExplicacionEstrategia(data.explicacion);
-				setSistemaEstrategia(data.sistema);
-				setImagenActual(data.imagen);
-			} catch (error) {
-				console.log(error);
-			}
-		};
-
-		if (idEstrategiaEditar) {
-			obtenerEstrategia();
-		}
-	}, [idEstrategiaEditar]);
 
 	const handleFileSelected = (e) => {
 		setFileEstrategia(e.target.files[0]);
@@ -59,46 +31,27 @@ const ModalEditarEstrategia = () => {
 
 		const formData = new FormData();
 		if (fileEstrategia) {
-			formData.append("imagen", fileEstrategia);
+			formData.append("imagen", fileEstrategia); // Asegúrate de usar el nombre correcto
 		}
 		formData.append("nombre", nombreEstrategia);
 		formData.append("explicacion", explicacionEstrategia);
 		formData.append("sistema", sistemaEstrategia);
 
 		handleCargando();
-		const token = localStorage.getItem("token");
-		if (!token) return;
-		const config = {
-			headers: {
-				Authorization: `Bearer ${token}`,
-				"Content-Type": "multipart/form-data",
-			},
-		};
-
-		try {
-			await axios.put(
-				`/api/estrategia/${idEstrategiaEditar}`,
-				formData,
-				config
-			);
-			setNombreEstrategia("");
-			setExplicacionEstrategia("");
-			setSistemaEstrategia("");
-			setFileEstrategia(null);
-			setImagenActual("");
-			setActualizarEstrategias(true);
-			handleModalEditarEstrategia();
-			handleCargando();
-		} catch (error) {
-			console.log(error);
-			handleCargando();
-		}
+		await nuevaEstrategia(formData);
+		setNombreEstrategia("");
+		setExplicacionEstrategia("");
+		setSistemaEstrategia("");
+		setFileEstrategia(null);
+		setActualizarEstrategias(true);
+		handleModalNuevaEstrategia();
+		handleCargando();
 	};
 
 	return (
 		<Modal
-			isOpen={modalEditarEstrategia}
-			onRequestClose={handleModalEditarEstrategia}
+			isOpen={modalNuevaEstrategia}
+			onRequestClose={handleModalNuevaEstrategia}
 			className="fixed inset-0 z-50 flex items-center justify-center"
 			overlayClassName="fixed inset-0 bg-gray-500 bg-opacity-75"
 		>
@@ -106,7 +59,7 @@ const ModalEditarEstrategia = () => {
 				<button
 					type="button"
 					className="absolute top-3 right-3 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-					onClick={handleModalEditarEstrategia}
+					onClick={handleModalNuevaEstrategia}
 				>
 					<span className="sr-only">Cerrar</span>
 					<svg
@@ -125,7 +78,7 @@ const ModalEditarEstrategia = () => {
 					</svg>
 				</button>
 				<h3 className="text-xl font-bold leading-6 text-gray-900 mb-4">
-					Editar Estrategia
+					Nueva Estrategia
 				</h3>
 				<form className="mx-2 my-2" onSubmit={handleSubmit}>
 					<div className="mb-1">
@@ -150,7 +103,7 @@ const ModalEditarEstrategia = () => {
 							className="text-sm font-bold uppercase text-gray-700"
 							htmlFor="archivo"
 						>
-							Sube una nueva imagen de la estrategia (opcional)
+							Sube la imagen de la estrategia
 						</label>
 						<input
 							id="archivo"
@@ -159,20 +112,6 @@ const ModalEditarEstrategia = () => {
 							onChange={handleFileSelected}
 						/>
 					</div>
-					{imagenActual && (
-						<div className="mb-1">
-							<label className="text-sm font-bold uppercase text-gray-700">
-								Imagen actual:
-							</label>
-							<div className="mt-2">
-								<img
-									src={`/api/uploads/${imagenActual}`}
-									alt="Imagen actual"
-									className="w-full h-auto"
-								/>
-							</div>
-						</div>
-					)}
 					<div className="mb-1">
 						<label
 							className="text-sm font-bold uppercase text-gray-700"
@@ -211,7 +150,7 @@ const ModalEditarEstrategia = () => {
 					<input
 						type="submit"
 						className="mt-4 w-full cursor-pointer rounded bg-blue-600 p-3 text-sm font-bold uppercase text-white transition-colors hover:bg-blue-300"
-						value="Actualizar Estrategia"
+						value="Crear Estrategia"
 					/>
 				</form>
 			</div>
@@ -219,4 +158,4 @@ const ModalEditarEstrategia = () => {
 	);
 };
 
-export default ModalEditarEstrategia;
+export default ModalEstrategia;

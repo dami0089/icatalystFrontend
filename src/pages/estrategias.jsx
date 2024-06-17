@@ -10,12 +10,36 @@ import Cargando from "../components/Cargando";
 import useAuth from "../hooks/useAuth";
 import ListadoDeEstrategias from "../components/estrategias/ListadoDeEstrategias";
 import useEstrategias from "../hooks/useEstrategias";
-import ModalCrearEstrategias from "../components/estrategias/ModalCrearEstrategias";
+import ModalEstrategia from "../components/estrategias/ModalEstrategia";
+import { useEffect } from "react";
 
 export function Estrategias() {
 	const { cargandoModal } = useAuth();
 
-	const { handleModalNuevaEstrategia, modalNuevaEstrategia } = useEstrategias();
+	const {
+		handleModalNuevaEstrategia,
+		modalNuevaEstrategia,
+		obtenerEstrategias,
+		actualizarEstrategias,
+		setActualizarEstrategias,
+	} = useEstrategias();
+
+	useEffect(() => {
+		const estrategias = async () => {
+			await obtenerEstrategias();
+		};
+		estrategias();
+	}, []);
+
+	useEffect(() => {
+		const estrategias = async () => {
+			if (actualizarEstrategias) {
+				await obtenerEstrategias();
+				setActualizarEstrategias(false);
+			}
+		};
+		estrategias();
+	}, [actualizarEstrategias]);
 
 	const handleModalEstrategias = () => {
 		handleModalNuevaEstrategia();
@@ -70,7 +94,7 @@ export function Estrategias() {
 					<ListadoDeEstrategias />
 				</Card>
 			</div>
-			{modalNuevaEstrategia ? <ModalCrearEstrategias /> : ""}
+			{modalNuevaEstrategia ? <ModalEstrategia /> : ""}
 
 			{cargandoModal ? <Cargando /> : ""}
 		</div>
