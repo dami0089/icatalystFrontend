@@ -15,12 +15,8 @@ import ModalEditarEscuela from "../components/escuelas/ModalEditarEscuela";
 import useEscuelas from "../hooks/useEscuelas";
 
 export function Escuelas() {
-	const {
-		handleModalAgregarEscuela,
-		modalAgregarEscuela,
-		handleModalEditarEscuela,
-		modalEditarEscuela,
-	} = useEscuelas();
+	const { handleModalAgregarEscuela, modalAgregarEscuela, modalEditarEscuela } =
+		useEscuelas();
 
 	const { cargandoModal } = useAuth();
 

@@ -4,7 +4,8 @@ import useEscuelas from "../../hooks/useEscuelas";
 import { useEffect } from "react";
 
 const ListadoEscuelas = () => {
-	const { escuelas, obtenerEscuelas } = useEscuelas();
+	const { escuelas, obtenerEscuelas, actualizarListado, setActualizarListado } =
+		useEscuelas();
 
 	useEffect(() => {
 		const obtenerEsc = async () => {
@@ -12,6 +13,16 @@ const ListadoEscuelas = () => {
 		};
 		obtenerEsc();
 	}, []);
+
+	useEffect(() => {
+		const obtenerEsc = async () => {
+			if (actualizarListado) {
+				await obtenerEscuelas();
+				setActualizarListado(false);
+			}
+		};
+		obtenerEsc();
+	}, [actualizarListado]);
 
 	return (
 		<>

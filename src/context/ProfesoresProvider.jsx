@@ -12,6 +12,7 @@ const ProfesoresProvider = ({ children }) => {
 	const [apellidoProfesor, setApellidoProfesor] = useState("");
 	const [emailProfesor, setEmailProfesor] = useState("");
 	const [idEscuela, setIdEscuela] = useState("");
+	const [actualizarListados, setActualizarListados] = useState(false);
 
 	const handleModalAgregarProfesor = () => {
 		setModalAgregarProfesor(!modalAgregarProfesor);
@@ -94,6 +95,8 @@ const ProfesoresProvider = ({ children }) => {
 				setEmailProfesor,
 				idEscuela,
 				setIdEscuela,
+				actualizarListados,
+				setActualizarListados,
 			}}
 		>
 			{children}

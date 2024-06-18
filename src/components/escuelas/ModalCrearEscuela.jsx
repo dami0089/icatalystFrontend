@@ -13,6 +13,7 @@ const ModalCrearEscuela = () => {
 		nuevaEscuela,
 		nombreEscuela,
 		setNombreEscuela,
+		setActualizarListado,
 	} = useEscuelas();
 
 	const handleSubmit = async (e) => {
@@ -20,6 +21,7 @@ const ModalCrearEscuela = () => {
 		handleCargando();
 		await nuevaEscuela(nombreEscuela);
 		setNombreEscuela("");
+		setActualizarListado(true);
 		handleCargando();
 		handleModalAgregarEscuela();
 	};

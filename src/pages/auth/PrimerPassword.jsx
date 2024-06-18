@@ -95,7 +95,7 @@ export function PrimerPassword() {
 			setNombreUsuario("");
 			setTimeout(() => {
 				handleCargando();
-				navigate("/");
+				navigate("/login");
 			}, 1500);
 		} catch (error) {
 			Swal.fire({
@@ -126,18 +126,18 @@ export function PrimerPassword() {
 					</CardHeader>
 					<CardBody className="flex flex-col gap-4">
 						<Input
-							label="Nombre de Usuario"
 							size="lg"
 							value={nombreUsuario}
 							type="text"
+							placeholder="Nombre de Usuario"
 							onChange={(e) => setNombreUsuario(e.target.value)}
 						/>
 						<div className="relative">
 							<Input
-								label="Password"
 								size="lg"
 								value={password}
 								type={showPassword ? "text" : "password"}
+								placeholder="Password"
 								onChange={(e) => setPassword(e.target.value)}
 							/>
 							<div
@@ -153,9 +153,9 @@ export function PrimerPassword() {
 						</div>
 						<div className="relative">
 							<Input
-								label="Repetir Password"
 								size="lg"
 								value={repetirPassword}
+								placeholder="Repetir Password"
 								type={showRepetirPassword ? "text" : "password"}
 								onChange={(e) => setRepetirPassword(e.target.value)}
 							/>

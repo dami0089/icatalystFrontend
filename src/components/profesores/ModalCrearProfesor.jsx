@@ -19,6 +19,7 @@ const ModalCrearProfesor = () => {
 		setEmailProfesor,
 		idEscuela,
 		setIdEscuela,
+		setActualizarListados,
 	} = useProfesores();
 	const { handleCargando } = useAuth();
 
@@ -44,6 +45,7 @@ const ModalCrearProfesor = () => {
 		setApellidoProfesor("");
 		setEmailProfesor("");
 		setIdEscuela("");
+		setActualizarListados(true);
 		handleCargando();
 		handleModalAgregarProfesor();
 	};
@@ -148,7 +150,7 @@ const ModalCrearProfesor = () => {
 							<option value="">--Selecciona una escuela--</option>
 
 							{escuelas.map((escuela) => (
-								<option key={escuela.id} value={escuela.id}>
+								<option key={escuela._id} value={escuela._id}>
 									{escuela.nombre}
 								</option>
 							))}

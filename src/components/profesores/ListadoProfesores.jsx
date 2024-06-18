@@ -4,7 +4,12 @@ import useProfesores from "../../hooks/useProfesores";
 import { useEffect } from "react";
 
 const ListadoProfesores = () => {
-	const { profesores, obtenerProfesores } = useProfesores();
+	const {
+		profesores,
+		obtenerProfesores,
+		actualizarListados,
+		setActualizarListados,
+	} = useProfesores();
 
 	useEffect(() => {
 		const obtenerProf = async () => {
@@ -12,6 +17,16 @@ const ListadoProfesores = () => {
 		};
 		obtenerProf();
 	}, []);
+
+	useEffect(() => {
+		const obtenerProf = async () => {
+			if (actualizarListados) {
+				await obtenerProfesores();
+				setActualizarListados(false);
+			}
+		};
+		obtenerProf();
+	}, [actualizarListados]);
 
 	return (
 		<>

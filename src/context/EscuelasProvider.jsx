@@ -9,6 +9,7 @@ const EscuelasProvider = ({ children }) => {
 	const [modalAgregarEscuela, setModalAgregarEscuela] = useState(false);
 	const [modalEditarEscuela, setModalEditarEscuela] = useState(false);
 	const [nombreEscuela, setNombreEscuela] = useState("");
+	const [actualizarListado, setActualizarListado] = useState(false);
 
 	const handleModalAgregarEscuela = () => {
 		setModalAgregarEscuela(!modalAgregarEscuela);
@@ -83,6 +84,8 @@ const EscuelasProvider = ({ children }) => {
 				setNombreEscuela,
 				escuelas,
 				obtenerEscuelas,
+				actualizarListado,
+				setActualizarListado,
 			}}
 		>
 			{children}
