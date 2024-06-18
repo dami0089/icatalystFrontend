@@ -73,6 +73,7 @@ const EstrategiasProvider = ({ children }) => {
 				`/estrategias/obtener-estrategias`,
 				config
 			);
+			console.log(data);
 			setEstrategias(data);
 		} catch (error) {
 			console.log(error);

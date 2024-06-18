@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import RutaProtegida from "./layouts/RutaProtegida";
 import Home from "./pages/home";
 import Profesores from "./pages/listadoProfesores";
-import EjemplosPage from "./pages/ejemplosPage";
 import ActivityExample from "./pages/ejemploActividad";
 import useAuth from "./hooks/useAuth";
 import Escuelas from "./pages/escuelas";
@@ -13,6 +12,8 @@ import NuevoPassword from "./pages/auth/NuevoPassword";
 import Login from "./pages/auth/loginPage";
 import Estrategias from "./pages/estrategias";
 import Alumnos from "./pages/alumnos";
+import HomeProfes from "./pages/homeProfesores";
+import SidekickComponent from "./components/activityExample/Activity";
 
 function App() {
 	const { auth } = useAuth();
@@ -52,8 +53,16 @@ function App() {
 			) : auth.rol === "profesor" ? (
 				<>
 					<Route path="/inicio" element={<RutaProtegida />}>
-						<Route index element={<EjemplosPage />} />
+						<Route index element={<HomeProfes />} />
 					</Route>
+
+					<Route path="/crear-actividad/:id" element={<RutaProtegida />}>
+						<Route index element={<SidekickComponent />} />
+					</Route>
+
+					{/* <Route path="/inicio" element={<RutaProtegida />}>
+						<Route index element={<EjemplosPage />} />
+					</Route> */}
 
 					<Route path="/ejemplo-actividad" element={<RutaProtegida />}>
 						<Route index element={<ActivityExample />} />
