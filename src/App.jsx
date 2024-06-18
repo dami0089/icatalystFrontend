@@ -69,7 +69,11 @@ function App() {
 					</Route>
 				</>
 			) : auth.rol === "alumno" ? (
-				<></>
+				<>
+					<Route path="/inicio" element={<RutaProtegida />}>
+						<Route index element={<HomeProfes />} />
+					</Route>
+				</>
 			) : null}
 		</Routes>
 	);
