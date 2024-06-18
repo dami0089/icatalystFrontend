@@ -14,6 +14,9 @@ import Estrategias from "./pages/estrategias";
 import Alumnos from "./pages/alumnos";
 import HomeProfes from "./pages/homeProfesores";
 import SidekickComponent from "./components/activityExample/Activity";
+import HomeAlumnos from "./pages/homeAlumnos";
+import Actividades from "./pages/actividades";
+import Actividad from "./pages/actividad";
 
 function App() {
 	const { auth } = useAuth();
@@ -71,7 +74,15 @@ function App() {
 			) : auth.rol === "alumno" ? (
 				<>
 					<Route path="/inicio" element={<RutaProtegida />}>
-						<Route index element={<HomeProfes />} />
+						<Route index element={<HomeAlumnos />} />
+					</Route>
+
+					<Route path="/actividades" element={<RutaProtegida />}>
+						<Route index element={<Actividades />} />
+					</Route>
+
+					<Route path="/actividad/:id" element={<RutaProtegida />}>
+						<Route index element={<Actividad />} />
 					</Route>
 				</>
 			) : null}
