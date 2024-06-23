@@ -1,8 +1,9 @@
 import Modal from "react-modal";
 import useProfesores from "../../hooks/useProfesores";
 import useAuth from "../../hooks/useAuth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useEscuelas from "../../hooks/useEscuelas";
+import useMaterias from "../../hooks/useMaterias";
 
 Modal.setAppElement("#root"); // Asegúrate de que esto esté configurado correctamente
 
@@ -24,13 +25,27 @@ const ModalCrearProfesor = () => {
 	const { handleCargando } = useAuth();
 
 	const { obtenerEscuelas, escuelas } = useEscuelas();
+	const { obtenerMaterias, materias } = useMaterias();
+
+	const [materiasAsignadas, setMateriasAsignadas] = useState([]);
 
 	useEffect(() => {
 		const obtenerEsc = async () => {
 			await obtenerEscuelas();
+			await obtenerMaterias();
 		};
 		obtenerEsc();
 	}, []);
+
+	const handleAddMateria = () => {
+		setMateriasAsignadas([...materiasAsignadas, ""]);
+	};
+
+	const handleChangeMateria = (index, value) => {
+		const nuevasMaterias = [...materiasAsignadas];
+		nuevasMaterias[index] = value;
+		setMateriasAsignadas(nuevasMaterias);
+	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -39,12 +54,15 @@ const ModalCrearProfesor = () => {
 			nombreProfesor,
 			apellidoProfesor,
 			emailProfesor,
-			idEscuela
+			idEscuela,
+			materiasAsignadas
 		);
+
 		setNombreProfesor("");
 		setApellidoProfesor("");
 		setEmailProfesor("");
 		setIdEscuela("");
+		setMateriasAsignadas([]);
 		setActualizarListados(true);
 		handleCargando();
 		handleModalAgregarProfesor();
@@ -148,7 +166,6 @@ const ModalCrearProfesor = () => {
 							onChange={(e) => setIdEscuela(e.target.value)}
 						>
 							<option value="">--Selecciona una escuela--</option>
-
 							{escuelas.map((escuela) => (
 								<option key={escuela._id} value={escuela._id}>
 									{escuela.nombre}
@@ -156,7 +173,39 @@ const ModalCrearProfesor = () => {
 							))}
 						</select>
 					</div>
+					<div>
+						<label
+							className="block text-sm font-bold uppercase text-gray-700"
+							htmlFor="materias"
+						>
+							Materias
+						</label>
 
+						{materiasAsignadas.map((materia, index) => (
+							<div key={index} className="flex items-center mt-2">
+								<select
+									id={`materia-${index}`}
+									className="w-full rounded-md border-2 p-2"
+									value={materia}
+									onChange={(e) => handleChangeMateria(index, e.target.value)}
+								>
+									<option value="">--Selecciona una materia--</option>
+									{materias.map((materia) => (
+										<option key={materia._id} value={materia._id}>
+											{materia.nombre}
+										</option>
+									))}
+								</select>
+							</div>
+						))}
+						<button
+							type="button"
+							className="mt-2 w-full flex justify-center rounded bg-blue-600 p-2 text-sm font-bold uppercase text-white transition-colors hover:bg-blue-700"
+							onClick={handleAddMateria}
+						>
+							+ Agregar Materia
+						</button>
+					</div>
 					<div>
 						<input
 							type="submit"

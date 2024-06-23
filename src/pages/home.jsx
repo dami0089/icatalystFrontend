@@ -28,6 +28,11 @@ export function Home() {
 		navigate("/listado-estrategias");
 	};
 
+	const handleMaterias = (e) => {
+		e.preventDefault();
+		navigate("/listado-materias");
+	};
+
 	return (
 		<>
 			<div className="mt-10 flex flex-wrap justify-center gap-10">
@@ -147,41 +152,34 @@ export function Home() {
 						</Typography>
 					</div>
 				</Card>
-				{/* <Card
+				<Card
 					className="flex w-full max-w-md flex-row items-center p-6 hover:cursor-pointer md:max-w-lg lg:max-w-xl hover:scale-105"
-					// onClick={handleModalNotificacionAdmin}
+					onClick={handleMaterias}
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="1em"
 						height="1em"
-						viewBox="0 0 24 24"
-						className="h-12 w-12 text-pink-500"
+						viewBox="0 0 32 32"
+						className="h-12 w-12 text-yellow-500"
 					>
-						<g
-							fill="none"
-							stroke="currentColor"
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							strokeWidth="1.5"
-							color="currentColor"
-						>
-							<path d="M13.5 19.49c-1.467.02-2.929.01-4.401-.027c-3.149-.079-4.723-.118-5.854-1.254c-1.131-1.135-1.164-2.668-1.23-5.733a69 69 0 0 1 0-2.952c.066-3.065.099-4.598 1.23-5.733C4.376 2.655 5.95 2.616 9.099 2.537a115 115 0 0 1 5.802 0c3.149.079 4.723.118 5.854 1.254c1.131 1.135 1.164 2.668 1.23 5.733Q22 10.264 22 11" />
-							<path d="m7 7.5l2.942 1.74c1.715 1.014 2.4 1.014 4.116 0L17 7.5M16 16c.491-.506 1.8-2.5 2.5-2.5M21 16c-.491-.506-1.8-2.5-2.5-2.5m0 0v8" />
-						</g>
+						<path
+							fill="currentColor"
+							d="M7.5 5a1 1 0 0 1 .916.6l3.5 8a1 1 0 1 1-1.832.8L9.471 13H5.53l-.613 1.4a1 1 0 0 1-1.832-.8l3.5-8A1 1 0 0 1 7.5 5m1.096 6L7.5 8.495L6.404 11zM4 19a1 1 0 1 0 0 2h24a1 1 0 0 0 0-2zm0 6a1 1 0 1 0 0 2h24a1 1 0 0 0 0-2zm9-19a1 1 0 0 1 1-1h2.5a3 3 0 0 1 2.455 4.725A3 3 0 0 1 17 15h-3a1 1 0 0 1-1-1zm2 5v2h2a1 1 0 0 0 0-2zm0-2h1.5a1 1 0 0 0 0-2H15zm8 1c0-1.176.294-1.93.65-2.371A1.64 1.64 0 0 1 24.98 7c.66 0 1.23.32 1.604 1.178a1 1 0 1 0 1.833-.8C27.757 5.866 26.514 5 24.979 5a3.64 3.64 0 0 0-2.884 1.371C21.373 7.264 21 8.51 21 10s.373 2.736 1.095 3.629A3.64 3.64 0 0 0 24.98 15c1.535 0 2.778-.866 3.438-2.378a1 1 0 1 0-1.833-.8C26.21 12.681 25.64 13 24.98 13a1.64 1.64 0 0 1-1.329-.629c-.356-.44-.65-1.195-.65-2.371"
+						/>
 					</svg>
 					<div className="ml-4">
 						<Typography variant="h5" color="blue-gray">
-							Enviar notificacion
+							Listado de Materias
 						</Typography>
 						<Typography
 							variant="subtitle1"
 							className="font-normal text-blue-gray-600"
 						>
-							Se enviara a todos los profesores
+							Aplica a todos los colegios
 						</Typography>
 					</div>
-				</Card> */}
+				</Card>
 
 				{/* <Cargando /> */}
 			</div>

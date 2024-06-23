@@ -9,7 +9,6 @@ const ActividadesContext = createContext();
 //  OJO QUE COPIE DE ESTRATEGIAS Y SOLO CAMBIE EL GET
 //  OJO QUE COPIE DE ESTRATEGIAS Y SOLO CAMBIE EL GET
 
-
 const ActividadesProvider = ({ children }) => {
 	const [modalNuevaActividad, setModalNuevaActividad] = useState(false);
 	const [nombreActividad, setNombreActividad] = useState("");
@@ -19,6 +18,11 @@ const ActividadesProvider = ({ children }) => {
 	const [actualizarActividades, setActualizarActividades] = useState(false);
 	const [idActividadEditar, setIdActividadEditar] = useState("");
 	const [modalEditarActividad, setModalEditarActividad] = useState(false);
+	const [idProfesor, setIdProfesor] = useState("");
+	const [idMateria, setIdMateria] = useState("");
+	const [idEscuela, setIdEscuela] = useState("");
+	const [templates, setTemplates] = useState([]);
+	const [temperaturaActividad, setTemperaturaActividad] = useState("");
 
 	const handleModalEditarActividad = () => {
 		setModalEditarActividad(!modalEditarActividad);
@@ -35,11 +39,17 @@ const ActividadesProvider = ({ children }) => {
 			const config = {
 				headers: {
 					Authorization: `Bearer ${token}`,
-					"Content-Type": "multipart/form-data", // Asegúrate de especificar que estás enviando datos multipart
+					"Content-Type": "multipart/form-data",
 				},
 			};
+
+			// Depuración: Imprimir el contenido de FormData
+			for (let pair of formData.entries()) {
+				console.log(pair[0] + ": " + pair[1]);
+			}
+
 			const { data } = await clienteAxios.post(
-				`/Actividades/nueva-Actividad/`,
+				`/actividades/agregar-actividad/`,
 				formData,
 				config
 			);
@@ -75,11 +85,36 @@ const ActividadesProvider = ({ children }) => {
 			};
 
 			const { data } = await clienteAxios(
-				`/Actividades/obtener-Actividades`,
+				`/actividades/obtener-actividades`,
 				config
 			);
 			console.log(data);
 			setActividades(data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const [actividadesProfe, setActividadesProfe] = useState([]);
+
+	const obtenerActividadesProfesor = async (id) => {
+		//obtiene todos los casos procesados!!
+		try {
+			const token = localStorage.getItem("token");
+			if (!token) return;
+			const config = {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			};
+
+			const { data } = await clienteAxios(
+				`/actividades/obtener-actividades-profesor/${id}`,
+				config
+			);
+			console.log(data);
+			setActividadesProfe(data);
 		} catch (error) {
 			console.log(error);
 		}
@@ -107,6 +142,18 @@ const ActividadesProvider = ({ children }) => {
 				setIdActividadEditar,
 				modalEditarActividad,
 				handleModalEditarActividad,
+				idProfesor,
+				setIdProfesor,
+				idMateria,
+				setIdMateria,
+				idEscuela,
+				setIdEscuela,
+				templates,
+				setTemplates,
+				temperaturaActividad,
+				setTemperaturaActividad,
+				actividadesProfe,
+				obtenerActividadesProfesor,
 			}}
 		>
 			{children}

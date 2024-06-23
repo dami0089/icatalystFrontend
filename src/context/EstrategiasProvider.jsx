@@ -13,6 +13,7 @@ const EstrategiasProvider = ({ children }) => {
 	const [fileEstrategia, setFileEstrategia] = useState([]);
 	const [actualizarEstrategias, setActualizarEstrategias] = useState(false);
 	const [idEstrategiaEditar, setIdEstrategiaEditar] = useState("");
+	const [templateActividad, setTemplateActividad] = useState([]);
 	const [modalEditarEstrategia, setModalEditarEstrategia] = useState(false);
 
 	const handleModalEditarEstrategia = () => {
@@ -80,6 +81,31 @@ const EstrategiasProvider = ({ children }) => {
 		}
 	};
 
+	const [estrategia, setEstrategia] = useState([]);
+
+	const obtenerEstrategia = async (id) => {
+		//obtiene todos los casos procesados!!
+		try {
+			const token = localStorage.getItem("token");
+			if (!token) return;
+			const config = {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			};
+
+			const { data } = await clienteAxios(
+				`/estrategias/obtener-estrategia/${id}`,
+				config
+			);
+			console.log(data);
+			setEstrategia(data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<EstrategiasContext.Provider
 			value={{
@@ -102,6 +128,10 @@ const EstrategiasProvider = ({ children }) => {
 				setIdEstrategiaEditar,
 				modalEditarEstrategia,
 				handleModalEditarEstrategia,
+				templateActividad,
+				setTemplateActividad,
+				estrategia,
+				obtenerEstrategia,
 			}}
 		>
 			{children}

@@ -28,13 +28,20 @@ const CardBackground = ({
 		zIndex: 1, // Asegurarse de que el contenido esté por encima del overlay oscuro
 	};
 
+	const truncateText = (text, limit) => {
+		if (text.length > limit) {
+			return `${text.substring(0, limit)}...`;
+		}
+		return text;
+	};
+
 	return (
 		<div
 			style={cardStyle}
-			className="flex flex-col justify-between rounded-lg shadow-lg max-w-sm cursor-pointer p-6 self-stretch transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl w-[300px] h-[150px]"
+			className="flex flex-col justify-between rounded-lg shadow-lg max-w-sm cursor-pointer p-6 self-stretch transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl w-[300px] h-[200px]"
 		>
 			<div className="flex flex-wrap items-center" style={contentStyle}>
-				<p className="font-bold ml-2 text-lg text-neutral-50 drop-shadow-md">
+				<p className="font-bold  text-lg text-neutral-50 drop-shadow-md mb-2">
 					{title}
 				</p>
 			</div>
@@ -44,7 +51,9 @@ const CardBackground = ({
 				className={`${backgroundColor} rounded-lg p-4 relative z-10`}
 				style={contentStyle}
 			>
-				<p className="text-lg text-neutral-50">{description}</p>
+				<p className="text-lg" title={description}>
+					{truncateText(description, 40)}
+				</p>
 			</div>
 		</div>
 	);

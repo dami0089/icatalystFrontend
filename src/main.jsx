@@ -9,21 +9,27 @@ import ErrorBoundary from "./components/error/error.jsx";
 import { EscuelasProvider } from "./context/EscuelasProvider.jsx";
 import { EstrategiasProvider } from "./context/EstrategiasProvider.jsx";
 import { AlumnosProvider } from "./context/AlumnosProvider.jsx";
+import { MateriasProvider } from "./context/MateriasProvider.jsx";
+import { ActividadesProvider } from "./context/ActividadesProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<AuthProvider>
 				<ProfesoresProvider>
-					<EscuelasProvider>
-						<EstrategiasProvider>
-							<AlumnosProvider>
-								<ErrorBoundary>
-									<App />
-								</ErrorBoundary>
-							</AlumnosProvider>
-						</EstrategiasProvider>
-					</EscuelasProvider>
+					<MateriasProvider>
+						<EscuelasProvider>
+							<EstrategiasProvider>
+								<AlumnosProvider>
+									<ActividadesProvider>
+										<ErrorBoundary>
+											<App />
+										</ErrorBoundary>
+									</ActividadesProvider>
+								</AlumnosProvider>
+							</EstrategiasProvider>
+						</EscuelasProvider>
+					</MateriasProvider>
 				</ProfesoresProvider>
 			</AuthProvider>
 		</BrowserRouter>

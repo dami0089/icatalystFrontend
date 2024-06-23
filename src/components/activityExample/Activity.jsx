@@ -1,76 +1,287 @@
-import brain from "../../assets/brain.png";
+import { useParams } from "react-router-dom";
+
+import useEstrategias from "../../hooks/useEstrategias";
+import { useEffect, useState } from "react";
+
+import useProfesores from "../../hooks/useProfesores";
+import useAuth from "../../hooks/useAuth";
+import useActividades from "../../hooks/useActividades";
 
 const SidekickComponent = () => {
+	const { id } = useParams();
+	const { estrategia, obtenerEstrategia } = useEstrategias();
+	const {
+		nuevaActividad,
+		explicacionActividad,
+		setExplicacionActividad,
+		fileActividad,
+		setFileActividad,
+		nombreActividad,
+		setNombreActividad,
+		idMateria,
+		setIdMateria,
+		templates,
+		setTemplates,
+		temperaturaActividad,
+		setTemperaturaActividad,
+	} = useActividades();
+
+	const {
+		materiasProfe,
+		obtenerMateriasProfesor,
+		obtenerDetallesProfe,
+		detallesProfe,
+	} = useProfesores();
+	const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+	const [inputValues, setInputValues] = useState({});
+
+	const { auth } = useAuth();
+
+	useEffect(() => {
+		const traerEstrategia = async () => {
+			await obtenerEstrategia(id);
+			await obtenerMateriasProfesor(auth._id);
+			await obtenerDetallesProfe(auth._id);
+		};
+		traerEstrategia();
+	}, []);
+
+	useEffect(() => {
+		if (estrategia.templates) {
+			const initialTemplates = estrategia.templates.map((template) => ({
+				nombre: template.nombre,
+				descripcion: "",
+			}));
+			setTemplates(initialTemplates);
+		}
+	}, [estrategia]);
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+
+		const formData = new FormData();
+		if (fileActividad) {
+			formData.append("imagen", fileActividad);
+		}
+		formData.append("estrategia", id);
+		formData.append("materia", idMateria);
+		formData.append("profesor", detallesProfe.profesorId);
+		formData.append("escuela", detallesProfe.escuelaId);
+		formData.append("nombreActividad", nombreActividad);
+		formData.append("explicacion", explicacionActividad);
+		formData.append("estado", "Activa");
+		formData.append("templates", JSON.stringify(templates));
+		formData.append("temperatura", temperaturaActividad);
+
+		// Depuración: Imprimir el contenido de FormData
+		for (let pair of formData.entries()) {
+			console.log(pair[0] + ": " + pair[1]);
+		}
+
+		await nuevaActividad(formData);
+		setNombreActividad("");
+		setExplicacionActividad("");
+		setIdMateria("");
+		setFileActividad(null);
+		setTemplates([]);
+		setTemperaturaActividad("");
+	};
+
+	useEffect(() => {
+		if (estrategia.templates) {
+			const initialInputs = estrategia.templates.reduce((acc, template) => {
+				acc[template.nombre] = ""; // Valor inicial vacío
+				return acc;
+			}, {});
+			setInputValues(initialInputs);
+
+			const initialTemplates = estrategia.templates.map((template) => ({
+				nombre: template.nombre,
+				descripcion: "", // Valor inicial vacío
+			}));
+			setTemplates(initialTemplates);
+		}
+	}, [estrategia]);
+
+	const handleTemplateChange = (nombre, value) => {
+		setInputValues({
+			...inputValues,
+			[nombre]: value,
+		});
+
+		setTemplates((prevTemplates) =>
+			prevTemplates.map((template) =>
+				template.nombre === nombre
+					? { ...template, descripcion: value }
+					: template
+			)
+		);
+	};
+
+	const toggleAccordion = () => {
+		setIsAccordionOpen(!isAccordionOpen);
+	};
+
+	const handleFileSelected = (e) => {
+		setFileActividad(e.target.files[0]);
+	};
+
 	return (
-		<div className="bg-white rounded-lg shadow-lg p-6 max-w-6xl mx-auto flex space-x-6 h-[600px]">
+		<div className="bg-white rounded-lg shadow-lg p-10 w-full mx-auto flex space-x-6 max-h-screen overflow-scroll ">
 			{/* Left Section */}
-			<div className="w-full ">
-				<div className="flex space-x-4 items-start">
-					<div className="flex-shrink-0">
-						<img className="h-16 w-16" src={brain} alt="activity Icon" />
-					</div>
+			<div className="w-full">
+				<div className="items-center">
+					<img
+						className="h-[350px] w-[1000px] object-cover rounded-lg shadow-lg"
+						src={`/${estrategia.imagen}`}
+						alt="activity Icon"
+					/>
+				</div>
+
+				<div className="flex space-x-4 items-start mt-4">
 					<div>
-						<h2 className="text-2xl font-bold">Actividad 1</h2>
-						<p className="text-gray-600 mt-1">
-							Give your students managed access to their very own AI assistant.
-						</p>
-						<p className="text-gray-600 mt-2">
-							Students can take advantage of AIs powerful capabilities to
-							explore various topics, answer questions, quiz themselves, and
-							more. You have full access to all chat sessions, allowing you to
-							monitor student activity.
-						</p>
+						<h2 className="text-2xl font-bold">{estrategia.nombre}</h2>
+						<p className="text-gray-600 mt-1">{estrategia.explicacion}</p>
+
 						<div className="mt-4">
 							<label
-								className="block text-gray-700 text-sm font-bold mb-2"
-								htmlFor="description"
+								className="block text-sm font-bold uppercase text-gray-700"
+								htmlFor="escuela"
 							>
-								What do you want activity1 to do with your students?{" "}
-								<span className="text-red-500">*</span>
+								Elije la materia para la actividad
+							</label>
+							<select
+								id="escuela"
+								className="mt-2 w-full rounded-md border-2 p-2"
+								value={idMateria}
+								onChange={(e) => setIdMateria(e.target.value)}
+							>
+								<option value="">--Selecciona una Materia--</option>
+								{materiasProfe.map((escuela) => (
+									<option key={escuela._id} value={escuela._id}>
+										{escuela.nombre}
+									</option>
+								))}
+							</select>
+						</div>
+
+						<div className="mt-4">
+							<label
+								className="block text-sm font-bold uppercase text-gray-700"
+								htmlFor="nombre"
+							>
+								Nombre de la actividad
+							</label>
+							<input
+								id="nombre"
+								className="w-full resize-none px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:shadow-outline"
+								placeholder="Ingresa un nombre para la actividad"
+								value={nombreActividad}
+								onChange={(e) => setNombreActividad(e.target.value)}
+							/>
+						</div>
+
+						<div className="mb-1">
+							<label
+								className="text-sm font-bold uppercase text-gray-700"
+								htmlFor="texto"
+							>
+								Explicacion
 							</label>
 							<textarea
-								id="description"
-								className="w-full resize-none px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:shadow-outline"
-								placeholder="Tell activity1 what you want it to help your students with. Be as creative or specific as you want!"
-								rows={10}
-							></textarea>
+								id="texto"
+								type="text"
+								placeholder="Explica tu estrategia"
+								className="mt-2 resize-none w-full rounded-md border-2 p-2 placeholder-gray-400"
+								rows={5}
+								autoComplete="off"
+								value={explicacionActividad}
+								onChange={(e) => setExplicacionActividad(e.target.value)}
+							/>
 						</div>
-						<div className="mt-4 flex space-x-2">
-							<button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
-								Launch
+
+						<div className="mt-4">
+							<button
+								onClick={toggleAccordion}
+								className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition duration-200"
+							>
+								{isAccordionOpen ? "Plegar Templates" : "Desplegar Templates"}
 							</button>
-							<button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition duration-200">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									width="1em"
-									height="1em"
-									viewBox="0 0 24 24"
-								>
-									<path
-										fill="currentColor"
-										d="m5.825 21l1.625-7.025L2 9.25l7.2-.625L12 2l2.8 6.625l7.2.625l-5.45 4.725L18.175 21L12 17.275z"
-									/>
-								</svg>
-							</button>
-							<button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition duration-200">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									width="1em"
-									height="1em"
-									viewBox="0 0 24 24"
-								>
-									<path
-										fill="currentColor"
-										d="M4.4 19.425q-.5.2-.95-.088T3 18.5V14l8-2l-8-2V5.5q0-.55.45-.837t.95-.088l15.4 6.5q.625.275.625.925t-.625.925z"
-									/>
-								</svg>
+							{isAccordionOpen && (
+								<div className="bg-gray-100 p-4 mt-2 rounded-lg">
+									{estrategia.templates &&
+										estrategia.templates.map((template) => (
+											<div className="mt-4" key={template._id}>
+												<label
+													className="block text-gray-700 text-sm font-bold mb-2"
+													htmlFor={template.nombre}
+													title={template.descripcion}
+												>
+													{template.nombre}{" "}
+													<span className="text-red-500">*</span>
+												</label>
+												<input
+													id={template.nombre}
+													className="w-full resize-none px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:shadow-outline"
+													placeholder={template.descripcion}
+													value={inputValues[template.nombre]}
+													onChange={(e) =>
+														handleTemplateChange(
+															template.nombre,
+															e.target.value
+														)
+													}
+												/>
+											</div>
+										))}
+								</div>
+							)}
+						</div>
+
+						<div className="mt-4">
+							<label
+								className="block text-sm font-bold uppercase text-gray-700"
+								htmlFor="temp"
+							>
+								Temperatura
+							</label>
+							<input
+								id="temp"
+								className="w-full resize-none px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:shadow-outline"
+								placeholder="Ingresa una temperatura para la actividad"
+								value={temperaturaActividad}
+								onChange={(e) => setTemperaturaActividad(e.target.value)}
+							/>
+						</div>
+
+						<div className="mb-1">
+							<label
+								className="text-sm font-bold uppercase text-gray-700"
+								htmlFor="archivo"
+							>
+								Sube la imagen de la actividad
+							</label>
+							<input
+								id="archivo"
+								type="file"
+								className="mt-2 w-full"
+								onChange={handleFileSelected}
+							/>
+						</div>
+
+						<div className="mt-4 flex space-x-2 mb-4">
+							<button
+								className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200"
+								onClick={(e) => handleSubmit(e)}
+							>
+								Crear actividad
 							</button>
 						</div>
 					</div>
 				</div>
 			</div>
 			{/* Right Section (Chat) */}
-			<div className=" bg-gray-100 rounded-lg p-4 flex flex-col w-full">
+			<div className="bg-gray-100 rounded-lg p-4 flex flex-col w-full h-screen">
 				<div className="flex-1 overflow-y-auto">
 					{/* Chat messages */}
 					<div className="mb-4">
@@ -89,7 +300,7 @@ const SidekickComponent = () => {
 						{/* More messages */}
 					</div>
 				</div>
-				<div className="mt-2">
+				<div className="mt-2 mb-5">
 					<div className="flex">
 						<input
 							type="text"

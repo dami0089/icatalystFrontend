@@ -2,13 +2,20 @@ import { useEffect } from "react";
 import CardBackground from "../components/CardBackground/CardBackground";
 import CardEstrategy from "../components/CardBackground/CardEstrategy";
 import useEstrategias from "../hooks/useEstrategias";
+import useActividades from "../hooks/useActividades";
+import useAuth from "../hooks/useAuth";
 
 export function HomeProfes() {
 	const { estrategias, obtenerEstrategias } = useEstrategias();
 
+	const { actividadesProfe, obtenerActividadesProfesor } = useActividades();
+
+	const { auth } = useAuth();
+
 	useEffect(() => {
 		const obtenerEstr = async () => {
 			await obtenerEstrategias();
+			await obtenerActividadesProfesor(auth._id);
 		};
 		obtenerEstr();
 	}, []);
@@ -40,36 +47,17 @@ export function HomeProfes() {
 					Este es tu listado de actividades en curso
 				</p>
 
-				<div className="flex gap-4">
-					<CardBackground
-						title={"Actividad 1"}
-						description={"Esta es la actividad 1"}
-						background={
-							"https://image.shutterstock.com/image-vector/happy-fathers-day-greeting-card-260nw-1087739567.jpg"
-						}
-						backgroundColor={"bg-[#4F6D7A]/85"}
-						navigateTo={""}
-					></CardBackground>
-
-					<CardBackground
-						title={"Actividad 2"}
-						description={"Esta es la actividad 2"}
-						background={
-							"https://image.shutterstock.com/image-vector/happy-fathers-day-greeting-card-260nw-1087739567.jpg"
-						}
-						backgroundColor={"bg-[#4F6D7A]/85"}
-						navigateTo={""}
-					></CardBackground>
-
-					<CardBackground
-						title={"Actividad 3"}
-						description={"Esta es la actividad 3"}
-						background={
-							"https://image.shutterstock.com/image-vector/happy-fathers-day-greeting-card-260nw-1087739567.jpg"
-						}
-						backgroundColor={"bg-[#4F6D7A]/85"}
-						navigateTo={""}
-					></CardBackground>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+					{actividadesProfe.map((actividad) => (
+						<CardBackground
+							key={actividad._id}
+							title={actividad.nombreActividad}
+							description={actividad.explicacion}
+							background={`/${actividad.imagen}`}
+							backgroundColor={"bg-[#4F6D7A]/85"}
+							navigateTo={`/actividades/${actividad._id}`}
+						/>
+					))}
 				</div>
 			</section>
 		</div>

@@ -22,7 +22,7 @@ const ProfesoresProvider = ({ children }) => {
 		setModalEditarProfesor(!modalEditarProfesor);
 	};
 
-	const nuevoProfesor = async (nombre, apellido, email, escuela) => {
+	const nuevoProfesor = async (nombre, apellido, email, escuela, materias) => {
 		try {
 			const token = localStorage.getItem("token");
 			if (!token) return;
@@ -33,7 +33,7 @@ const ProfesoresProvider = ({ children }) => {
 			};
 			const { data } = await clienteAxios.post(
 				`/profesores/nuevo-profesor/`,
-				{ nombre, apellido, email, escuela },
+				{ nombre, apellido, email, escuela, materias },
 				config
 			);
 
@@ -77,6 +77,56 @@ const ProfesoresProvider = ({ children }) => {
 		}
 	};
 
+	const [materiasProfe, setMateriasProfe] = useState([]);
+
+	const obtenerMateriasProfesor = async (id) => {
+		//obtiene todos los casos procesados!!
+		try {
+			const token = localStorage.getItem("token");
+			if (!token) return;
+			const config = {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			};
+
+			const { data } = await clienteAxios(
+				`/profesores/obtener-materias-profesor/${id}`,
+				config
+			);
+			console.log(data);
+			setMateriasProfe(data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const [detallesProfe, setDetallesProfe] = useState([]);
+
+	const obtenerDetallesProfe = async (id) => {
+		//obtiene todos los casos procesados!!
+		try {
+			const token = localStorage.getItem("token");
+			if (!token) return;
+			const config = {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			};
+
+			const { data } = await clienteAxios(
+				`/profesores/obtener-detalles-profesor/${id}`,
+				config
+			);
+			console.log(data);
+			setDetallesProfe(data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<ProfesoresContext.Provider
 			value={{
@@ -97,6 +147,10 @@ const ProfesoresProvider = ({ children }) => {
 				setIdEscuela,
 				actualizarListados,
 				setActualizarListados,
+				materiasProfe,
+				obtenerMateriasProfesor,
+				detallesProfe,
+				obtenerDetallesProfe,
 			}}
 		>
 			{children}
