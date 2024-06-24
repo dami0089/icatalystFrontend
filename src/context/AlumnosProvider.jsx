@@ -14,6 +14,7 @@ const AlumnosProvider = ({ children }) => {
 	const [idEditarAlumno, setIdEditarAlumno] = useState("");
 	const [escuelaAlumno, setEscuelaAlumno] = useState("");
 	const [actualizarListado, setActualizarListado] = useState(false);
+	const [gradoAlumno, setGradoAlumno] = useState("");
 
 	const handleModalEditarAlumno = () => {
 		setModalEditarAlumno(!modalEditarAlumno);
@@ -23,7 +24,7 @@ const AlumnosProvider = ({ children }) => {
 		setModalNuevoAlumno(!modalNuevoAlumno);
 	};
 
-	const nuevoAlumno = async (nombre, apellido, email, escuela) => {
+	const nuevoAlumno = async (nombre, apellido, email, escuela, grado) => {
 		try {
 			const token = localStorage.getItem("token");
 			if (!token) return;
@@ -34,7 +35,7 @@ const AlumnosProvider = ({ children }) => {
 			};
 			const { data } = await clienteAxios.post(
 				`alumnos/nuevo-alumno/`,
-				{ nombre, apellido, email, escuela },
+				{ nombre, apellido, email, escuela, grado },
 				config
 			);
 
@@ -97,6 +98,8 @@ const AlumnosProvider = ({ children }) => {
 				setEscuelaAlumno,
 				actualizarListado,
 				setActualizarListado,
+				gradoAlumno,
+				setGradoAlumno,
 			}}
 		>
 			{children}

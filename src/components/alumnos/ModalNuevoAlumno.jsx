@@ -7,6 +7,22 @@ import { useEffect } from "react";
 Modal.setAppElement("#root"); // Asegúrate de que esto esté configurado correctamente
 
 const ModalNuevoAlumno = () => {
+	const grados = [
+		"PRIMARIA - Primer grado",
+		"PRIMARIA - Segundo grado",
+		"PRIMARIA - Tercer grado",
+		"PRIMARIA - Cuarto grado",
+		"PRIMARIA - Quinto grado",
+		"PRIMARIA - Sexto grado",
+		"PRIMARIA - Septimo grado",
+		"PRIMARIA - Octavo grado",
+		"SECUNDARIA - Primer grado",
+		"SECUNDARIA - Segundo grado",
+		"SECUNDARIA - Tercer grado",
+		"SECUNDARIA - Cuarto grado",
+		"SECUNDARIA - Quinto grado",
+		"SECUNDARIA - Sexto grado",
+	];
 	const { handleCargando } = useAuth();
 
 	const { obtenerEscuelas, escuelas } = useEscuelas();
@@ -24,6 +40,8 @@ const ModalNuevoAlumno = () => {
 		escuelaAlumno,
 		setEscuelaAlumno,
 		setActualizarListado,
+		gradoAlumno,
+		setGradoAlumno,
 	} = useAlumnos();
 
 	useEffect(() => {
@@ -36,10 +54,17 @@ const ModalNuevoAlumno = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		handleCargando();
-		await nuevoAlumno(nombreAlumno, apellidoAlumno, emailAlumno, escuelaAlumno);
+		await nuevoAlumno(
+			nombreAlumno,
+			apellidoAlumno,
+			emailAlumno,
+			escuelaAlumno,
+			gradoAlumno
+		);
 		setNombreAlumno("");
 		setApellidoAlumno("");
 		setEmailAlumno("");
+		setGradoAlumno("");
 		setEscuelaAlumno("");
 		setActualizarListado(true);
 		handleCargando();
@@ -129,6 +154,28 @@ const ModalNuevoAlumno = () => {
 							value={emailAlumno}
 							onChange={(e) => setEmailAlumno(e.target.value)}
 						/>
+					</div>
+					<div>
+						<label
+							className="block text-sm font-bold uppercase text-gray-700"
+							htmlFor="escuela"
+						>
+							Grado
+						</label>
+						<select
+							id="escuela"
+							className="mt-2 w-full rounded-md border-2 p-2"
+							value={gradoAlumno}
+							onChange={(e) => setGradoAlumno(e.target.value)}
+						>
+							<option value="">--Selecciona un grado--</option>
+
+							{grados.map((escuela) => (
+								<option key={escuela} value={escuela}>
+									{escuela}
+								</option>
+							))}
+						</select>
 					</div>
 					<div>
 						<label
