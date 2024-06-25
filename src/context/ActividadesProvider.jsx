@@ -120,6 +120,31 @@ const ActividadesProvider = ({ children }) => {
 		}
 	};
 
+	const [actividadesEscuela, setActividadesEscuela] = useState([]);
+
+	const obtenerActividadesEscuela = async (id) => {
+		//obtiene todos los casos procesados!!
+		try {
+			const token = localStorage.getItem("token");
+			if (!token) return;
+			const config = {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			};
+
+			const { data } = await clienteAxios(
+				`/actividades/obtener-actividades-escuela/${id}`,
+				config
+			);
+			console.log(data);
+			setActividadesEscuela(data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<ActividadesContext.Provider
 			value={{
@@ -154,6 +179,8 @@ const ActividadesProvider = ({ children }) => {
 				setTemperaturaActividad,
 				actividadesProfe,
 				obtenerActividadesProfesor,
+				actividadesEscuela,
+				obtenerActividadesEscuela,
 			}}
 		>
 			{children}

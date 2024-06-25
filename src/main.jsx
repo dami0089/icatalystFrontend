@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
@@ -11,27 +10,28 @@ import { EstrategiasProvider } from "./context/EstrategiasProvider.jsx";
 import { AlumnosProvider } from "./context/AlumnosProvider.jsx";
 import { MateriasProvider } from "./context/MateriasProvider.jsx";
 import { ActividadesProvider } from "./context/ActividadesProvider.jsx";
+import { DialogoProvider } from "./context/DialogoProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-	<React.StrictMode>
-		<BrowserRouter>
-			<AuthProvider>
-				<ProfesoresProvider>
-					<MateriasProvider>
-						<EscuelasProvider>
-							<EstrategiasProvider>
-								<AlumnosProvider>
-									<ActividadesProvider>
+	<BrowserRouter>
+		<AuthProvider>
+			<ProfesoresProvider>
+				<MateriasProvider>
+					<EscuelasProvider>
+						<EstrategiasProvider>
+							<AlumnosProvider>
+								<ActividadesProvider>
+									<DialogoProvider>
 										<ErrorBoundary>
 											<App />
 										</ErrorBoundary>
-									</ActividadesProvider>
-								</AlumnosProvider>
-							</EstrategiasProvider>
-						</EscuelasProvider>
-					</MateriasProvider>
-				</ProfesoresProvider>
-			</AuthProvider>
-		</BrowserRouter>
-	</React.StrictMode>
+									</DialogoProvider>
+								</ActividadesProvider>
+							</AlumnosProvider>
+						</EstrategiasProvider>
+					</EscuelasProvider>
+				</MateriasProvider>
+			</ProfesoresProvider>
+		</AuthProvider>
+	</BrowserRouter>
 );
