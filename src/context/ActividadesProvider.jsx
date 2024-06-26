@@ -2,6 +2,7 @@
 import { createContext, useState } from "react";
 import clienteAxios from "../configs/clinteAxios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const ActividadesContext = createContext();
 
@@ -23,6 +24,7 @@ const ActividadesProvider = ({ children }) => {
 	const [idEscuela, setIdEscuela] = useState("");
 	const [templates, setTemplates] = useState([]);
 	const [temperaturaActividad, setTemperaturaActividad] = useState("");
+	const navigate = useNavigate();
 
 	const handleModalEditarActividad = () => {
 		setModalEditarActividad(!modalEditarActividad);
@@ -54,13 +56,7 @@ const ActividadesProvider = ({ children }) => {
 				config
 			);
 
-			Swal.fire({
-				position: "top-end",
-				icon: "success",
-				title: `${data.msg}`,
-				showConfirmButton: false,
-				timer: 1500,
-			});
+			navigate(`/ver-actividad/${data.actividad._id}`);
 		} catch (error) {
 			Swal.fire({
 				icon: "error",
@@ -145,6 +141,31 @@ const ActividadesProvider = ({ children }) => {
 		}
 	};
 
+	const [actividad, setActividad] = useState([]);
+
+	const obtenerActividad = async (id) => {
+		//obtiene todos los casos procesados!!
+		try {
+			const token = localStorage.getItem("token");
+			if (!token) return;
+			const config = {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			};
+
+			const { data } = await clienteAxios(
+				`/actividades/obtener-actividad/${id}`,
+				config
+			);
+
+			setActividad(data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<ActividadesContext.Provider
 			value={{
@@ -181,6 +202,8 @@ const ActividadesProvider = ({ children }) => {
 				obtenerActividadesProfesor,
 				actividadesEscuela,
 				obtenerActividadesEscuela,
+				actividad,
+				obtenerActividad,
 			}}
 		>
 			{children}

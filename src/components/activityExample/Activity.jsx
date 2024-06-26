@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import useProfesores from "../../hooks/useProfesores";
 import useAuth from "../../hooks/useAuth";
 import useActividades from "../../hooks/useActividades";
+import Swal from "sweetalert2";
 
 const SidekickComponent = () => {
 	const { id } = useParams();
@@ -35,7 +36,7 @@ const SidekickComponent = () => {
 	const [isAccordionOpen, setIsAccordionOpen] = useState(false);
 	const [inputValues, setInputValues] = useState({});
 
-	const { auth } = useAuth();
+	const { auth, handleCargando } = useAuth();
 
 	useEffect(() => {
 		const traerEstrategia = async () => {
@@ -59,6 +60,22 @@ const SidekickComponent = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
+		// if(!fileActividad){
+		// 	return Swal.fire({
+		// 		icon: "error",
+		// 		title: "Oops...",
+		// 		text: `Debes subir una imagen para la actividad`,
+		// 	})
+		// }
+
+		// if (!idMateria, !nombreActividad, !explicacionActividad, !temperaturaActividad) {
+		// 	return Swal.fire({
+		// 		icon: "error",
+		// 		title: "Oops...",
+		// 		text: `Debes subir una imagen para la actividad`,
+		// 	});
+		// }
+
 		const formData = new FormData();
 		if (fileActividad) {
 			formData.append("imagen", fileActividad);
@@ -78,6 +95,8 @@ const SidekickComponent = () => {
 			console.log(pair[0] + ": " + pair[1]);
 		}
 
+		handleCargando();
+
 		await nuevaActividad(formData);
 		setNombreActividad("");
 		setExplicacionActividad("");
@@ -85,6 +104,7 @@ const SidekickComponent = () => {
 		setFileActividad(null);
 		setTemplates([]);
 		setTemperaturaActividad("");
+		handleCargando();
 	};
 
 	useEffect(() => {
@@ -127,12 +147,12 @@ const SidekickComponent = () => {
 	};
 
 	return (
-		<div className="bg-white rounded-lg shadow-lg p-10 w-full mx-auto flex space-x-6 max-h-screen overflow-scroll ">
+		<div className="bg-white rounded-lg shadow-lg p-10 w-full mx-auto flex space-x-6 h-max overflow-scroll ">
 			{/* Left Section */}
 			<div className="w-full">
 				<div className="items-center">
 					<img
-						className="h-[350px] w-[1000px] object-cover rounded-lg shadow-lg"
+						className="h-[230px] w-[1000px] object-cover rounded-lg shadow-lg"
 						src={`/${estrategia.imagen}`}
 						alt="activity Icon"
 					/>
@@ -254,28 +274,30 @@ const SidekickComponent = () => {
 							/>
 						</div>
 
-						<div className="mb-1">
-							<label
-								className="text-sm font-bold uppercase text-gray-700"
-								htmlFor="archivo"
-							>
-								Sube la imagen de la actividad
-							</label>
-							<input
-								id="archivo"
-								type="file"
-								className="mt-2 w-full"
-								onChange={handleFileSelected}
-							/>
-						</div>
+						<div className="flex justify-between mt-8">
+							<div className="mb-1">
+								<label
+									className="text-sm font-bold uppercase text-gray-700"
+									htmlFor="archivo"
+								>
+									Sube la imagen de la actividad
+								</label>
+								<input
+									id="archivo"
+									type="file"
+									className="mt-2 w-full"
+									onChange={handleFileSelected}
+								/>
+							</div>
 
-						<div className="mt-4 flex space-x-2 mb-4">
-							<button
-								className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200"
-								onClick={(e) => handleSubmit(e)}
-							>
-								Crear actividad
-							</button>
+							<div className="mt-4 flex space-x-2 mb-4">
+								<button
+									className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200"
+									onClick={(e) => handleSubmit(e)}
+								>
+									Crear
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -306,6 +328,7 @@ const SidekickComponent = () => {
 							type="text"
 							className="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:shadow-outline"
 							placeholder="Send a message"
+							disabled
 						/>
 						<button className="ml-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
 							<svg

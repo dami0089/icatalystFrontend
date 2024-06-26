@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useDialogo from "../hooks/useDialogo";
 import useAuth from "../hooks/useAuth";
+import Lottie from "react-lottie";
+import writingAnimation from "../Lotties/typing.json"; // Asegúrate de reemplazar este path con el correcto
 
 export function Actividad() {
 	const navigate = useNavigate();
@@ -11,6 +13,7 @@ export function Actividad() {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [mensaje, setMensaje] = useState("");
 	const [chat, setChat] = useState([]);
+	const [isWriting, setIsWriting] = useState(false); // Nuevo estado para la animación de escritura
 	const chatEndRef = useRef(null);
 
 	useEffect(() => {
@@ -39,12 +42,28 @@ export function Actividad() {
 		e.preventDefault();
 		if (mensaje.trim() === "") return;
 
-		await flowDialogo(mensaje, auth._id, id, dialogo._id);
+		const nuevoMensaje = { role: "user", content: mensaje };
+		setChat((prevChat) => [...prevChat, nuevoMensaje]);
 		setMensaje("");
+		setIsWriting(true); // Mostrar animación de escritura
+
+		await flowDialogo(mensaje, auth._id, id, dialogo._id);
+
+		setIsWriting(false); // Ocultar animación de escritura
+		scrollToBottom();
 	};
 
 	const scrollToBottom = () => {
 		chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+	};
+
+	const defaultOptions = {
+		loop: true,
+		autoplay: true,
+		animationData: writingAnimation,
+		rendererSettings: {
+			preserveAspectRatio: "xMidYMid slice",
+		},
 	};
 
 	return (
@@ -60,30 +79,35 @@ export function Actividad() {
 					Ver Descripción
 				</button>
 			</div>
-			<div className="h-full">
-				<div className="relative flex max-w-screen h-full rounded-lg border-solid border-2">
-					<div className="w-full flex flex-col md:p-4 overflow-y-auto">
-						<div className="flex flex-col space-y-4 p-4">
+			<div className="h-full flex flex-col">
+				<div className="relative flex flex-grow rounded-lg border-solid border-2 overflow-hidden">
+					<div className="w-full flex flex-col md:p-4">
+						<div className="flex-grow flex flex-col space-y-4 p-4 overflow-y-auto">
 							{chat.map((msg, index) => (
 								<div
 									key={index}
 									className={`relative max-w-[70%] py-2 px-4 rounded-lg mb-2 ${
 										msg.role === "user"
-											? "bg-blue-400 self-end"
-											: "bg-gray-400 self-start"
+											? "bg-blue-300 self-end"
+											: "bg-gray-200 self-start"
 									}`}
 								>
 									<img
-										className="absolute rounded-full w-[30px] h-[30px] top-[-6px] left-[-6px]"
+										className="absolute rounded-full w-[30px] h-[30px] top-[-16px] left-[-16px]"
 										src="/imgs/36506d4a22a9d5cbb4d4c5db7bd1d1e1.webp.jpeg"
 										alt=""
 									/>
 									<p className="text-sm">{msg.content}</p>
 								</div>
 							))}
+							{isWriting && (
+								<div className="relative max-w-[70%] py-2 px-4 rounded-lg mb-2 bg-gray-400 self-start">
+									<Lottie options={defaultOptions} height={40} width={40} />
+								</div>
+							)}
 							<div ref={chatEndRef} />
 						</div>
-						<div className="mt-auto mx-auto w-full max-w-[90%] p-4 md:p-6 relative">
+						<div className="p-4">
 							<form onSubmit={handleEnviar}>
 								<div className="relative">
 									<input

@@ -9,12 +9,12 @@ import Footer from "../widgets/layout/footer";
 const RutaProtegida = () => {
 	return (
 		<>
-			<div className="flex h-full flex-col bg-gray-50">
-				<div className="flex flex-col h-full p-4">
+			<div className="flex max-h-max flex-col ">
+				<div className="flex flex-col  max-h-max p-4">
 					<DashboardNavbar />
 					<Outlet />
 				</div>
-				<div className="text-blue-gray-600">
+				<div className="text-blue-gray-600 ">
 					<Footer />
 				</div>
 			</div>

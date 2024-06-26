@@ -11,8 +11,11 @@ const ActivityCard = ({
 	navigateTo,
 	teacherImage,
 	teacherName,
+	estado,
 }) => {
 	const navigate = useNavigate();
+
+	console.log(teacherName);
 
 	return (
 		<>
@@ -33,14 +36,32 @@ const ActivityCard = ({
 					</div>
 				</div>
 				{/* Bottom section with teacher info */}
-				<div className="p-4 flex items-center">
+				<div className="p-4 flex ">
 					<img
 						className="w-12 h-12 rounded-full mr-4"
 						src={teacherImage}
-						alt={teacherName}
+						alt={teacherName && teacherName.nombre}
 					/>
 					<div>
-						<h3 className="text-lg font-bold">{teacherName}</h3>
+						<h3 className="text-lg font-bold">
+							{teacherName && teacherName.nombre}{" "}
+							{teacherName && teacherName.apellido}
+						</h3>
+						<div className="flex items-center">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="1em"
+								height="1em"
+								viewBox="0 0 24 24"
+								className="mr-2 text-green-900"
+							>
+								<g fill="none" stroke="currentColor" strokeLinecap="round">
+									<path d="M12 21a9 9 0 1 0-6.364-2.636" />
+									<path d="m16 10l-3.598 4.318c-.655.786-.983 1.18-1.424 1.2c-.44.02-.803-.343-1.527-1.067L8 13" />
+								</g>
+							</svg>
+							<p className="text-sm text-green-900">{estado}</p>
+						</div>
 					</div>
 				</div>
 			</div>

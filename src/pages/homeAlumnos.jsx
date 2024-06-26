@@ -20,17 +20,21 @@ export function HomeAlumnos() {
 	}, []);
 
 	return (
-		<div className="container mt-5 mx-auto px-4 sm:px-6 lg:px-8 py-8">
+		<div className="container max-h-max mt-5 mx-auto px-4 sm:px-6 lg:px-8 py-8">
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 sm:gap-6">
-				{actividadesEscuela.map(({ imagen, nombreActividad, _id }) => (
-					<ActivityCard
-						activityImage={`/${imagen}`}
-						activityName={nombreActividad}
-						teacherImage={teacherImage}
-						teacherName={teacherName}
-						navigateTo={_id}
-					/>
-				))}
+				{actividadesEscuela.map(
+					({ imagen, nombreActividad, profesor, _id, estado }) => (
+						<ActivityCard
+							key={_id}
+							activityImage={`/${imagen}`}
+							activityName={nombreActividad}
+							teacherImage={teacherImage}
+							teacherName={profesor}
+							navigateTo={_id}
+							estado={estado}
+						/>
+					)
+				)}
 			</div>
 		</div>
 	);

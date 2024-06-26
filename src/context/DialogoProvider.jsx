@@ -7,6 +7,13 @@ const DialogoContext = createContext();
 
 const DialogoProvider = ({ children }) => {
 	const [dialogo, setDialogo] = useState([]);
+	const [idAlumnoVerChat, setIdAlumnoVerChat] = useState("");
+	const [idDialogo, setIdDialogo] = useState("");
+	const [modalVerDialogoAlumno, setModalVerDialogoAlumno] = useState(false);
+
+	const handleModlaVerChatAlumno = async () => {
+		setModalVerDialogoAlumno(!modalVerDialogoAlumno);
+	};
 
 	const flowDialogo = async (mensaje, usuario, id_actividad, id_dialogo) => {
 		try {
@@ -24,14 +31,6 @@ const DialogoProvider = ({ children }) => {
 			);
 			console.log(data);
 			setDialogo(data);
-
-			Swal.fire({
-				position: "top-end",
-				icon: "success",
-				title: `${data.msg}`,
-				showConfirmButton: false,
-				timer: 1500,
-			});
 		} catch (error) {
 			Swal.fire({
 				icon: "error",
@@ -57,14 +56,6 @@ const DialogoProvider = ({ children }) => {
 			);
 			console.log(data);
 			setDialogo(data);
-
-			Swal.fire({
-				position: "top-end",
-				icon: "success",
-				title: `${data.msg}`,
-				showConfirmButton: false,
-				timer: 1500,
-			});
 		} catch (error) {
 			Swal.fire({
 				icon: "error",
@@ -74,12 +65,95 @@ const DialogoProvider = ({ children }) => {
 		}
 	};
 
+	const dialogoInicialProfe = async (usuario, id_actividad) => {
+		try {
+			const token = localStorage.getItem("token");
+			if (!token) return;
+			const config = {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			};
+			const { data } = await clienteAxios.post(
+				`/dialogo/iniciar-profesor`,
+				{ usuario, id_actividad },
+				config
+			);
+			console.log(data);
+			setDialogo(data);
+		} catch (error) {
+			Swal.fire({
+				icon: "error",
+				title: "Oops...",
+				text: `${error.response.data.msg}`,
+			});
+		}
+	};
+
+	const [dialogosActividad, setDialogosActividad] = useState([]);
+
+	const obtenerDialogosActividad = async (id) => {
+		//obtiene todos los casos procesados!!
+		try {
+			const token = localStorage.getItem("token");
+			if (!token) return;
+			const config = {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			};
+
+			const { data } = await clienteAxios(`/dialogo/dialogos/${id}`, config);
+			console.log(data);
+			setDialogosActividad(data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const [dialogoAlumno, setDialogoAlumno] = useState([]);
+
+	const obtenerDialogoAlumno = async (id) => {
+		//obtiene todos los casos procesados!!
+		try {
+			const token = localStorage.getItem("token");
+			if (!token) return;
+			const config = {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			};
+
+			const { data } = await clienteAxios(
+				`/dialogo/obtener-dialogo-alumno/${id}`,
+				config
+			);
+			console.log(data.chat);
+			setDialogoAlumno(data.chat);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<DialogoContext.Provider
 			value={{
 				dialogo,
 				flowDialogo,
+				dialogoInicialProfe,
 				dialogoInicial,
+				dialogosActividad,
+				obtenerDialogosActividad,
+				handleModlaVerChatAlumno,
+				modalVerDialogoAlumno,
+				idAlumnoVerChat,
+				setIdAlumnoVerChat,
+				idDialogo,
+				setIdDialogo,
+				dialogoAlumno,
+				obtenerDialogoAlumno,
 			}}
 		>
 			{children}

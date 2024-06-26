@@ -15,8 +15,10 @@ import HomeProfes from "./pages/homeProfesores";
 import SidekickComponent from "./components/activityExample/Activity";
 import HomeAlumnos from "./pages/homeAlumnos";
 import Actividades from "./pages/actividades";
-import Actividad from "./pages/actividad";
 import Materias from "./pages/materias";
+import ChatLayout from "./layouts/ChatLayout";
+import ChatAlumno from "./components/alumnos/ChatAlumno";
+import VerActividadProfesor from "./components/activityExample/VerActividadProfesor";
 
 function App() {
 	const { auth } = useAuth();
@@ -66,6 +68,10 @@ function App() {
 					<Route path="/crear-actividad/:id" element={<RutaProtegida />}>
 						<Route index element={<SidekickComponent />} />
 					</Route>
+
+					<Route path="/ver-actividad/:id" element={<RutaProtegida />}>
+						<Route index element={<VerActividadProfesor />} />
+					</Route>
 				</>
 			) : auth.rol === "alumno" ? (
 				<>
@@ -77,8 +83,8 @@ function App() {
 						<Route index element={<Actividades />} />
 					</Route>
 
-					<Route path="/actividad/:id" element={<RutaProtegida />}>
-						<Route index element={<Actividad />} />
+					<Route path="/actividad/:id" element={<ChatLayout />}>
+						<Route index element={<ChatAlumno />} />
 					</Route>
 				</>
 			) : null}
