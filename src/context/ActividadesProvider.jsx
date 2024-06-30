@@ -55,7 +55,7 @@ const ActividadesProvider = ({ children }) => {
 				formData,
 				config
 			);
-
+			console.log(data);
 			navigate(`/ver-actividad/${data.actividad._id}`);
 		} catch (error) {
 			Swal.fire({

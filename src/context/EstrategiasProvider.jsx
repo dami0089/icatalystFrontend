@@ -15,6 +15,10 @@ const EstrategiasProvider = ({ children }) => {
 	const [idEstrategiaEditar, setIdEstrategiaEditar] = useState("");
 	const [templateActividad, setTemplateActividad] = useState([]);
 	const [modalEditarEstrategia, setModalEditarEstrategia] = useState(false);
+	const [tipoTemplateEstrategia, setTipoTemplateEstrategia] = useState("");
+	const [contextoTemplate, setContextoTemplate] = useState("");
+	const [temaTemplate, setTemaTemplate] = useState("");
+	const [edadAlumnosTemplate, setEdadAlumnosTemplate] = useState("");
 
 	const handleModalEditarEstrategia = () => {
 		setModalEditarEstrategia(!modalEditarEstrategia);
@@ -132,6 +136,14 @@ const EstrategiasProvider = ({ children }) => {
 				setTemplateActividad,
 				estrategia,
 				obtenerEstrategia,
+				tipoTemplateEstrategia,
+				setTipoTemplateEstrategia,
+				contextoTemplate,
+				setContextoTemplate,
+				temaTemplate,
+				setTemaTemplate,
+				edadAlumnosTemplate,
+				setEdadAlumnosTemplate,
 			}}
 		>
 			{children}

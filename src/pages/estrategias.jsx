@@ -1,10 +1,4 @@
-import {
-	Typography,
-	Card,
-	CardHeader,
-	CardBody,
-	Button,
-} from "@material-tailwind/react";
+import { Typography, Card, CardBody, Button } from "@material-tailwind/react";
 
 import Cargando from "../components/Cargando";
 import useAuth from "../hooks/useAuth";
@@ -12,21 +6,26 @@ import ListadoDeEstrategias from "../components/estrategias/ListadoDeEstrategias
 import useEstrategias from "../hooks/useEstrategias";
 import ModalEstrategia from "../components/estrategias/ModalEstrategia";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function Estrategias() {
 	const { cargandoModal } = useAuth();
 
+	const navigate = useNavigate();
 	const {
-		handleModalNuevaEstrategia,
 		modalNuevaEstrategia,
 		obtenerEstrategias,
 		actualizarEstrategias,
 		setActualizarEstrategias,
 	} = useEstrategias();
 
+	const { handleCargando } = useAuth();
+
 	useEffect(() => {
 		const estrategias = async () => {
+			handleCargando();
 			await obtenerEstrategias();
+			handleCargando();
 		};
 		estrategias();
 	}, []);
@@ -34,21 +33,28 @@ export function Estrategias() {
 	useEffect(() => {
 		const estrategias = async () => {
 			if (actualizarEstrategias) {
+				handleCargando();
+
 				await obtenerEstrategias();
 				setActualizarEstrategias(false);
+				handleCargando();
 			}
 		};
 		estrategias();
 	}, [actualizarEstrategias]);
 
 	const handleModalEstrategias = () => {
-		handleModalNuevaEstrategia();
+		navigate("/nueva-estrategia");
+		// handleModalNuevaEstrategia();
 	};
 
 	return (
 		<div className="mt-12">
 			<div className="mb-12 grid gap-x-6 gap-y-10 md:grid-cols-2 xl:grid-cols-4 ">
-				<Card className="hover:cursor-pointer" onClick={handleModalEstrategias}>
+				<Card
+					className="hover:cursor-pointer shadow-xl hover:scale-95"
+					onClick={handleModalEstrategias}
+				>
 					<Button
 						className="absolute -mt-4 grid h-14  place-items-center bg-white text-black"
 						style={{ pointerEvents: "none" }}
@@ -85,12 +91,6 @@ export function Estrategias() {
 			</div>
 			<div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
 				<Card className="overflow-hidden xl:col-span-3">
-					<CardHeader
-						floated={false}
-						shadow={false}
-						color="transparent"
-						className="m-0 flex items-center justify-between p-6"
-					></CardHeader>
 					<ListadoDeEstrategias />
 				</Card>
 			</div>

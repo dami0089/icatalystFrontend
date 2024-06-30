@@ -35,7 +35,7 @@ const ListadoProfesores = () => {
 					Listado de Profesores
 				</Typography>
 			</div>
-			<CardBody className="overflow-x-scroll px-0 pb-2 pt-0">
+			<CardBody className="overflow-x-scroll px-0 pb-2 pt-0 shadow-2xl rounded-xl">
 				<div className="hidden md:block">
 					<table className="w-full min-w-[640px] table-auto">
 						<thead>
@@ -43,7 +43,7 @@ const ListadoProfesores = () => {
 								{["Nombre", "Apellido", "Instituto", "Accion"].map((el) => (
 									<th
 										key={el}
-										className="border-b border-blue-gray-50 px-6 py-3 text-center"
+										className="border-b bg-blue-100 border-blue-gray-50 px-6 py-3 text-center"
 									>
 										<Typography
 											variant="small"

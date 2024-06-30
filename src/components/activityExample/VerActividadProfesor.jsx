@@ -158,7 +158,7 @@ const VerActividadProfesor = () => {
 
 	return (
 		<>
-			<div className="bg-white rounded-lg shadow-lg p-10 w-full mx-auto flex space-x-6 h-max overflow-none ">
+			<div className="bg-white rounded-lg shadow-lg p-10 w-full mx-auto flex space-x-6 h-max overflow-hidden ">
 				{/* Left Section */}
 				<div className="w-full">
 					<div className="items-center">
@@ -364,7 +364,9 @@ const VerActividadProfesor = () => {
 					</div>
 				</div>
 				{/* Right Section (Chat) */}
-				<ChatProfesor />
+				<div className="w-full md:w-2/3 h-[1000px] overflow-scroll">
+					<ChatProfesor />
+				</div>
 			</div>
 			<div className="bg-white rounded-lg shadow-lg p-10 w-full mt-12 flex space-x-6  ">
 				<ListadoAlumnosActividad />

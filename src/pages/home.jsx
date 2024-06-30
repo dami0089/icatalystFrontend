@@ -37,7 +37,7 @@ export function Home() {
 		<>
 			<div className="mt-10 flex flex-wrap justify-center gap-10">
 				<Card
-					className="flex w-full max-w-md hover:scale-105 flex-row items-center p-6 hover:cursor-pointer md:max-w-lg lg:max-w-xl"
+					className="flex w-full max-w-md hover:scale-105 flex-row items-center p-6 hover:cursor-pointer md:max-w-lg lg:max-w-xl shadow-xl"
 					onClick={(e) => handleVerEscuelas(e)}
 				>
 					<svg
@@ -65,7 +65,7 @@ export function Home() {
 					</div>
 				</Card>
 				<Card
-					className="flex w-full max-w-md hover:scale-105 flex-row items-center p-6 hover:cursor-pointer md:max-w-lg lg:max-w-xl"
+					className="flex w-full max-w-md hover:scale-105 flex-row items-center p-6 hover:cursor-pointer md:max-w-lg lg:max-w-xl shadow-xl"
 					onClick={(e) => handleVerProfesores(e)}
 				>
 					<svg
@@ -93,7 +93,7 @@ export function Home() {
 					</div>
 				</Card>
 				<Card
-					className="flex w-full max-w-md flex-row items-center p-6 hover:cursor-pointer md:max-w-lg lg:max-w-xl hover:scale-105"
+					className="flex w-full max-w-md flex-row items-center p-6 hover:cursor-pointer md:max-w-lg lg:max-w-xl hover:scale-105 shadow-xl"
 					onClick={(e) => handleListadoEstrategias(e)}
 				>
 					<svg
@@ -125,7 +125,7 @@ export function Home() {
 					</div>
 				</Card>
 				<Card
-					className="flex w-full max-w-md flex-row items-center p-6 hover:cursor-pointer md:max-w-lg lg:max-w-xl hover:scale-105"
+					className="flex w-full max-w-md flex-row items-center p-6 hover:cursor-pointer md:max-w-lg lg:max-w-xl hover:scale-105 shadow-xl"
 					onClick={(e) => handleVerAlumnos(e)}
 				>
 					<svg
@@ -153,7 +153,7 @@ export function Home() {
 					</div>
 				</Card>
 				<Card
-					className="flex w-full max-w-md flex-row items-center p-6 hover:cursor-pointer md:max-w-lg lg:max-w-xl hover:scale-105"
+					className="flex w-full max-w-md flex-row items-center p-6 hover:cursor-pointer md:max-w-lg lg:max-w-xl hover:scale-105 shadow-xl"
 					onClick={handleMaterias}
 				>
 					<svg
@@ -174,7 +174,7 @@ export function Home() {
 						</Typography>
 						<Typography
 							variant="subtitle1"
-							className="font-normal text-blue-gray-600"
+							className="font-normal text-blue-gray-600 "
 						>
 							Aplica a todos los colegios
 						</Typography>

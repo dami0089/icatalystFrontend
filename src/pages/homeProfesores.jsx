@@ -43,7 +43,7 @@ export function HomeProfes() {
 							key={estrategia._id}
 							title={estrategia.nombre}
 							description={estrategia.explicacion}
-							background={`/public/${estrategia.imagen}`}
+							background={`/${estrategia.imagen}`}
 							backgroundColor={"bg-[#4F6D7A]/85"} // Ejemplo de color de fondo, ajusta según necesites
 							navigateTo={`/crear-actividad/${estrategia._id}`}
 						/>

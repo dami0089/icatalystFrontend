@@ -19,6 +19,7 @@ import Materias from "./pages/materias";
 import ChatLayout from "./layouts/ChatLayout";
 import ChatAlumno from "./components/alumnos/ChatAlumno";
 import VerActividadProfesor from "./components/activityExample/VerActividadProfesor";
+import NuevaEstrategia from "./components/estrategias/NuevaEstrategia";
 
 function App() {
 	const { auth } = useAuth();
@@ -45,6 +46,10 @@ function App() {
 
 					<Route path="/listado-estrategias" element={<RutaProtegida />}>
 						<Route index element={<Estrategias />} />
+					</Route>
+
+					<Route path="/nueva-estrategia" element={<RutaProtegida />}>
+						<Route index element={<NuevaEstrategia />} />
 					</Route>
 
 					<Route path="/listado-alumnos" element={<RutaProtegida />}>

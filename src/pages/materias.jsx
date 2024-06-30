@@ -1,10 +1,4 @@
-import {
-	Typography,
-	Card,
-	CardHeader,
-	CardBody,
-	Button,
-} from "@material-tailwind/react";
+import { Typography, Card, CardBody, Button } from "@material-tailwind/react";
 import Cargando from "../components/Cargando";
 import useAuth from "../hooks/useAuth";
 import ListadoDeMaterias from "../components/materias/ListadoDeMaterias";
@@ -23,7 +17,10 @@ export function Materias() {
 	return (
 		<div className="mt-12">
 			<div className="mb-12 grid gap-x-6 gap-y-10 md:grid-cols-2 xl:grid-cols-4 ">
-				<Card className="hover:cursor-pointer" onClick={handleAgregarMateria}>
+				<Card
+					className="hover:cursor-pointer shadow-xl hover:scale-95"
+					onClick={handleAgregarMateria}
+				>
 					<Button
 						className="absolute -mt-4 grid h-14  place-items-center bg-white text-black"
 						style={{ pointerEvents: "none" }}
@@ -60,12 +57,6 @@ export function Materias() {
 			</div>
 			<div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
 				<Card className="overflow-hidden xl:col-span-3">
-					<CardHeader
-						floated={false}
-						shadow={false}
-						color="transparent"
-						className="m-0 flex items-center justify-between p-6"
-					></CardHeader>
 					<ListadoDeMaterias />
 				</Card>
 			</div>

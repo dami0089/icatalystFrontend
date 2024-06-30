@@ -1,18 +1,13 @@
-import {
-	Typography,
-	Card,
-	CardHeader,
-	CardBody,
-	Button,
-} from "@material-tailwind/react";
+import { Typography, Card, CardBody, Button } from "@material-tailwind/react";
 
 import Cargando from "../components/Cargando";
 import useAuth from "../hooks/useAuth";
 
 import ListadoEscuelas from "../components/escuelas/ListadoEscuelas";
 import ModalCrearEscuela from "../components/escuelas/ModalCrearEscuela";
-import ModalEditarEscuela from "../components/escuelas/ModalEditarEscuela";
+
 import useEscuelas from "../hooks/useEscuelas";
+import ModalEditarEscuela from "../components/escuelas/ModalEditarEscuela";
 
 export function Escuelas() {
 	const { handleModalAgregarEscuela, modalAgregarEscuela, modalEditarEscuela } =
@@ -28,7 +23,7 @@ export function Escuelas() {
 		<div className="mt-12">
 			<div className="mb-12 grid gap-x-6 gap-y-10 md:grid-cols-2 xl:grid-cols-4 ">
 				<Card
-					className="hover:cursor-pointer"
+					className="hover:cursor-pointer shadow-xl hover:scale-95"
 					onClick={handleModalNuevaEscuela}
 				>
 					<Button
@@ -67,12 +62,6 @@ export function Escuelas() {
 			</div>
 			<div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3">
 				<Card className="overflow-hidden xl:col-span-3">
-					<CardHeader
-						floated={false}
-						shadow={false}
-						color="transparent"
-						className="m-0 flex items-center justify-between p-6"
-					></CardHeader>
 					<ListadoEscuelas />
 				</Card>
 			</div>

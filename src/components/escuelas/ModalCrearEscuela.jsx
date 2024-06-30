@@ -14,13 +14,31 @@ const ModalCrearEscuela = () => {
 		nombreEscuela,
 		setNombreEscuela,
 		setActualizarListado,
+		maxTokens,
+		setMaxTokens,
+		maxMessages,
+		setMaxMessages,
+		maxinputlength,
+		setMaxInputLength,
+		model,
+		setModel,
 	} = useEscuelas();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		handleCargando();
-		await nuevaEscuela(nombreEscuela);
+		await nuevaEscuela(
+			nombreEscuela,
+			maxTokens,
+			maxMessages,
+			maxinputlength,
+			model
+		);
 		setNombreEscuela("");
+		setMaxTokens("");
+		setMaxMessages("");
+		setMaxInputLength("");
+		setModel("");
 		setActualizarListado(true);
 		handleCargando();
 		handleModalAgregarEscuela();
@@ -74,6 +92,78 @@ const ModalCrearEscuela = () => {
 							autoComplete="off"
 							value={nombreEscuela}
 							onChange={(e) => setNombreEscuela(e.target.value)}
+						/>
+					</div>
+
+					<div>
+						<label
+							className="block text-sm font-bold uppercase text-gray-700"
+							htmlFor="Tokens"
+						>
+							Max Tokens
+						</label>
+						<input
+							id="Tokens"
+							type="number"
+							placeholder="Max Tokens"
+							className="mt-2 w-full rounded-md border-2 p-2 placeholder-gray-400"
+							autoComplete="off"
+							value={maxTokens}
+							onChange={(e) => setMaxTokens(e.target.value)}
+						/>
+					</div>
+
+					<div>
+						<label
+							className="block text-sm font-bold uppercase text-gray-700"
+							htmlFor="Messages"
+						>
+							Max Messages
+						</label>
+						<input
+							id="Messages"
+							type="number"
+							placeholder="Max Messages"
+							className="mt-2 w-full rounded-md border-2 p-2 placeholder-gray-400"
+							autoComplete="off"
+							value={maxMessages}
+							onChange={(e) => setMaxMessages(e.target.value)}
+						/>
+					</div>
+
+					<div>
+						<label
+							className="block text-sm font-bold uppercase text-gray-700"
+							htmlFor="Input"
+						>
+							Max Input Length
+						</label>
+						<input
+							id="Input"
+							type="number"
+							placeholder="Max Input Length"
+							className="mt-2 w-full rounded-md border-2 p-2 placeholder-gray-400"
+							autoComplete="off"
+							value={maxinputlength}
+							onChange={(e) => setMaxInputLength(e.target.value)}
+						/>
+					</div>
+
+					<div>
+						<label
+							className="block text-sm font-bold uppercase text-gray-700"
+							htmlFor="Model"
+						>
+							Model
+						</label>
+						<input
+							id="Model"
+							type="text"
+							placeholder="Model"
+							className="mt-2 w-full rounded-md border-2 p-2 placeholder-gray-400"
+							autoComplete="off"
+							value={model}
+							onChange={(e) => setModel(e.target.value)}
 						/>
 					</div>
 

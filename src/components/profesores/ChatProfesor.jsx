@@ -61,7 +61,7 @@ export function ChatProfesor() {
 	};
 
 	return (
-		<div className="flex flex-col w-full md:w-2/3 border-solid border-2 rounded-lg overflow-hidden">
+		<div className="flex flex-col  border-solid border-2 rounded-lg overflow-hidden">
 			<div className="flex-grow flex flex-col p-4 overflow-y-auto">
 				{chat.map((msg, index) => (
 					<div
